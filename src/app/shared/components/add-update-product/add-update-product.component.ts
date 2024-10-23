@@ -30,10 +30,27 @@ export class AddUpdateProductComponent  implements OnInit {
 
   constructor() { }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
   }
 
+  //======= Tomar/ Seleccionar Imagen======
+  async takeImage() {
+    const result = await this.supaSvc.takePicture('Imagen del estacionamiento');
+    const dataUrl = result.dataUrl;
+
+    // Verificar si dataUrl es undefined
+    if (dataUrl !== undefined) {
+        this.form.controls.imagen.setValue(dataUrl);
+    } else {
+        // Manejar el caso en que dataUrl es undefined, por ejemplo:
+        this.form.controls.imagen.setValue(null); // o alguna lógica adicional
+    }
+}
+
   
+
+
 
   async submit() {
     console.log(this.form.value);

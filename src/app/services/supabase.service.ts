@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { LoadingController, ModalController, ModalOptions } from '@ionic/angular';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 
 @Injectable({
@@ -14,6 +15,22 @@ export class SupabaseService {
   loadingCtrl = inject(LoadingController);
   router = inject(Router);
   modalCtrl = inject(ModalController)
+
+  
+
+async takePicture(promptLabelHeader: string) {
+  return await Camera.getPhoto({
+    quality: 90,
+    allowEditing: true,
+    resultType: CameraResultType.DataUrl,
+    source: CameraSource.Prompt,
+    promptLabelHeader,
+    promptLabelPhoto: 'Selecciona una imagen',
+    promptLabelPicture: 'Toma una foto'
+  });
+
+  
+};
 
 
   constructor() {
@@ -160,32 +177,27 @@ export class SupabaseService {
   // modificar un documento
 
   async updateDocument(table: string, data: any, id: string) {
-  const { data: response, error } = await this.supabase.from(table).update(data).match({ id });
-  return { response, error };
-}
+    const { data: response, error } = await this.supabase.from(table).update(data).match({ id });
+    return { response, error };
+  }
 
   //obtener un documento
 
   async getDocument(table: string, id: string) {
-  const { data, error } = await this.supabase.from(table).select().match({ id });
-  return { data, error };
-}
+    const { data, error } = await this.supabase.from(table).select().match({ id });
+    return { data, error };
+  }
 
   //eliminar un documento
 
   async deleteDocument(table: string, id: string) {
-  const { data, error } = await this.supabase.from(table).delete().match({ id });
-  return { data, error };
-}
-
-
-
-
+    const { data, error } = await this.supabase.from(table).delete().match({ id });
+    return { data, error };
   }
 
-
-
-function dismissModal(arg0: any) {
-  throw new Error('Function not implemented.');
 }
+
+
+
+
 
