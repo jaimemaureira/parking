@@ -21,6 +21,11 @@ const routes: Routes = [
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule), canActivate: [AuthGuard]
   },
+  {
+    path: 'sign-up-prestador',
+    loadChildren: () => import('./pages/auth/sign-up-prestador/sign-up-prestador.module').then( m => m.SignUpPrestadorPageModule), canActivate: [NoAuthGuard]
+  },
+
 ];
 
 @NgModule({

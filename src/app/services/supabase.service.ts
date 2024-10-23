@@ -129,12 +129,12 @@ export class SupabaseService {
 
   // =================== BASE DE DATOS =================== //
 
-   // Método para insertar un documento en una tabla
+  // Método para insertar un documento en una tabla
   async insertDocument(_table: string, data: any): Promise<{ data: any; error: any }> {
     const { data: insertedData, error } = await this.supabase
       .from('parking')
       .insert([data]);
-      
+
 
     return { data: insertedData, error };
   }
@@ -142,32 +142,27 @@ export class SupabaseService {
   // modificar un documento
 
   async updateDocument(table: string, data: any, id: string) {
-  const { data: response, error } = await this.supabase.from(table).update(data).match({ id });
-  return { response, error };
-}
+    const { data: response, error } = await this.supabase.from(table).update(data).match({ id });
+    return { response, error };
+  }
 
   //obtener un documento
 
   async getDocument(table: string, id: string) {
-  const { data, error } = await this.supabase.from(table).select().match({ id });
-  return { data, error };
-}
+    const { data, error } = await this.supabase.from(table).select().match({ id });
+    return { data, error };
+  }
 
   //eliminar un documento
 
   async deleteDocument(table: string, id: string) {
-  const { data, error } = await this.supabase.from(table).delete().match({ id });
-  return { data, error };
-}
-
-
-
-
+    const { data, error } = await this.supabase.from(table).delete().match({ id });
+    return { data, error };
   }
 
-
-
-function dismissModal(arg0: any) {
-  throw new Error('Function not implemented.');
 }
+
+
+
+
 
