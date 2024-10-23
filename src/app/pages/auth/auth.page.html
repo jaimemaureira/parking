@@ -3,7 +3,7 @@
 
 <div class="d-flex-center">
 
-  <form [formGroup]="form" class="auth-form">
+  <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
 
     <app-logo></app-logo>
 
@@ -36,7 +36,7 @@
 
       <p routerLink="forgot-password" class="ion-text-end">Recupera la contraseña</p>
       
-      <ion-button expand="block" mode="ios" class="submit" type="submite" [disabled]="form.invalid">
+      <ion-button  expand="block" mode="ios" class="submit" type="submite" [disabled]="form.invalid">
         Ingresar
         <ion-icon slot="end" name="log-in-outline"></ion-icon>
       </ion-button>

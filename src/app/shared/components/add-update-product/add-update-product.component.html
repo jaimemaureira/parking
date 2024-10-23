@@ -1,0 +1,34 @@
+<app-header [ismodal]="true" title="Agregar Estacionamientos"></app-header>
+ <ion-content>
+
+  <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()" >
+
+    
+
+    <!-- NOMBRE -->
+    <app-custom-input
+      autocomplete="nombre_parking"
+      icon="person-outline"
+      [control]="form.controls.nombre_parking"
+      type="text"
+      label="Nombre estacionamiento"></app-custom-input>
+
+    <div class="validators"
+      *ngIf="form.controls.nombre_parking.errors && form.controls.nombre_parking.touched">
+      <div *ngIf="form.controls.nombre_parking.errors?.['required']">El correo es
+        obligatorio</div>
+      <div *ngIf="form.controls.nombre_parking.errors?.['minlenght']">El nombre debe
+        tener minimo 4 caracteres</div>
+    </div>
+
+    
+
+    <ion-button expand="block" mode="ios" class="submit" type="submit"
+      [disabled]="form.invalid">
+      Agregar estacionamiento
+      <ion-icon slot="end" name="person-add-outline"></ion-icon>
+    </ion-button>
+
+  </form>
+
+ </ion-content>
