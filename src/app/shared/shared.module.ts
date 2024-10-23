@@ -11,6 +11,7 @@ import { AddUpdateProductComponent } from './components/add-update-product/add-u
 
 @NgModule({
   declarations: [
+    
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
@@ -18,6 +19,7 @@ import { AddUpdateProductComponent } from './components/add-update-product/add-u
   ],
 
   exports: [
+    
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,

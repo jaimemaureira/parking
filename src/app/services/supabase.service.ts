@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { createClient, SupabaseClient, UserAttributes, UserResponse } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import { LoadingController, ModalController, ModalOptions } from '@ionic/angular';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
