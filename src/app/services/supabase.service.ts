@@ -124,8 +124,9 @@ export class SupabaseService {
   }
 
   // Método para obtener el usuario autenticado
-  async getUser(): Promise<UserResponse> {
-    return await this.supabase.auth.getUser();
+  async getUser() {
+    const { data: { user } } = await this.supabase.auth.getUser();
+    return user;
   }
 
   // =================== MODAL =================== //
