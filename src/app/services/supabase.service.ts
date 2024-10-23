@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { LoadingController, ModalController, ModalOptions } from '@ionic/angular';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 
 @Injectable({
@@ -14,6 +15,22 @@ export class SupabaseService {
   loadingCtrl = inject(LoadingController);
   router = inject(Router);
   modalCtrl = inject(ModalController)
+
+  
+
+async takePicture(promptLabelHeader: string) {
+  return await Camera.getPhoto({
+    quality: 90,
+    allowEditing: true,
+    resultType: CameraResultType.DataUrl,
+    source: CameraSource.Prompt,
+    promptLabelHeader,
+    promptLabelPhoto: 'Selecciona una imagen',
+    promptLabelPicture: 'Toma una foto'
+  });
+
+  
+};
 
 
   constructor() {
