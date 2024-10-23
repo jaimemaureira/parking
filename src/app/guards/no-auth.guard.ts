@@ -13,7 +13,7 @@ export class NoAuthGuard implements CanActivate {
     const user = await this.supaSvc.getUser();
     if (user) {
       // Si el usuario está autenticado, redirigir a la página principal
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/main/home']);
       return false;
     } else {
       // Si el usuario no está autenticado, permitir el acceso

@@ -20,33 +20,50 @@ export class SupabaseService {
     this.supabase = createClient(environment.supaApiUrl, environment.supaApiKey);
   }
 
-  //metodo registro de usuarios
-  async signUp(email: string, password: string, additionalData: any) {
+   // Método para registrar un usuario
+   async signUp(email: string, password: string): Promise<{ data: any; error: any }> {
     const { data, error } = await this.supabase.auth.signUp({
-      email, password, options: { data: additionalData }
+      email, password
     });
-
-    // Si el registro es exitoso, guarda los datos adicionales en la tabla persona
-    if (data?.user) {
-      const { error: profileError } = await this.supabase
-        .from('persona')
-        .insert([{
-          persona_id: data.user.id,
-          nombre: additionalData.nombre,
-          apellido: additionalData.apellido,
-          rut: additionalData.rut,
-          telefono: additionalData.telefono,
-          email: additionalData.email
-        }]);
-
-      if (profileError) {
-        Swal.fire('Error', 'No se pudo guardar el perfil', 'error');
-      }
-
-    }
 
     return { data, error };
   }
+
+  // Método para insertar un documento en una tabla de forma dinámica
+  async insertDocument(table: string, data: any): Promise<{ data: any; error: any }> {
+    const { data: insertedData, error } = await this.supabase
+      .from(table)
+      .insert([data]);
+
+    if (error) {
+      alert('Error, No se pudo guardar el perfil');
+    }
+
+    return { data: insertedData, error };
+  }
+
+  //metodo registro de usuarios
+  // async signUp(email: string, password: string, additionalData: any) {
+  //   const { data, error } = await this.supabase.auth.signUp({
+  //     email, password, options: { data: additionalData }
+  //   });
+
+    // Si el registro es exitoso, guarda los datos adicionales en la tabla persona
+    
+    // if (data?.user) {
+    //   const { error: profileError } = await this.supabase
+    //     .from(table)
+    //     .insert([additionalData]);
+
+    //   if (profileError) {
+    //     Swal.fire('Error', 'No se pudo guardar el perfil', 'error');
+    //     return { data: null, error: profileError };
+    //   }
+
+    // }
+
+  //   return { data, error };
+  // }  
 
   //metodo para iniciar sesion
   signIn(email: string, password: string) {
@@ -130,14 +147,14 @@ export class SupabaseService {
   // =================== BASE DE DATOS =================== //
 
    // Método para insertar un documento en una tabla
-  async insertDocument(_table: string, data: any): Promise<{ data: any; error: any }> {
-    const { data: insertedData, error } = await this.supabase
-      .from('parking')
-      .insert([data]);
+  // async insertDocument(_table: string, data: any): Promise<{ data: any; error: any }> {
+  //   const { data: insertedData, error } = await this.supabase
+  //     .from('parking')
+  //     .insert([data]);
       
 
-    return { data: insertedData, error };
-  }
+  //   return { data: insertedData, error };
+  // }
 
   // modificar un documento
 

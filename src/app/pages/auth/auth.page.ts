@@ -53,12 +53,11 @@ export class AuthPage implements OnInit {
       alert('Inicio de sesión exitoso');
       
       // Redirigir a la página principal
-      this.supaSvc.router.navigate(['/main/home']);
+      this.supaSvc.routerlink('/main/home');
 
       // Limpiar formulario
       this.form.reset();
 
-      // Cerrar loading
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error('Error:', error.message);
