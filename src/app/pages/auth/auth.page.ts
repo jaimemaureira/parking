@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auth',
@@ -50,7 +51,12 @@ export class AuthPage implements OnInit {
 
       // Mostrar mensaje de inicio de sesión exitoso
       console.log('Inicio de sesión exitoso:', data);
-      alert('Inicio de sesión exitoso');
+      Swal.fire({
+        icon: 'success',
+        title: 'Inicio de sesión exitoso',
+        showConfirmButton: false,
+        timer: 2500
+      });
       
       // Redirigir a la página principal
       this.supaSvc.routerlink('/main/home');

@@ -144,6 +144,28 @@ ion-text h1 {
     }
 }
 
-.swal-custom-popup {
-    z-index: 100000 !important; /* Ajusta el valor según sea necesario */
+// .swal-custom-popup {
+//     z-index: 1 !important; /* Ajusta el valor según sea necesario */
+//   }
+
+.swal2-popup {
+    z-index: 10000 !important; /* Ajusta el valor según sea necesario */
+    background-color: white !important; /* Asegúrate de que el fondo sea visible */
+    color: black !important; /* Asegúrate de que el texto sea visible */
+    width: 400px !important; /* Ajusta el ancho según sea necesario */
+    height: auto !important; /* Ajusta la altura según sea necesario */
+    max-width: 90vw; /* Asegúrate de que el popup no sea más ancho que la ventana */
+    max-height: 90vh; /* Asegúrate de que el popup no sea más alto que la ventana */
+  }
+  
+  .swal2-title {
+    font-size: 1.5em; /* Ajusta el tamaño de la fuente del título */
+  }
+  
+  .swal2-content {
+    font-size: 1.2em; /* Ajusta el tamaño de la fuente del contenido */
+  }
+  
+  .swal2-backdrop-show {
+    background-color: rgba(0, 0, 0, 0.4) !important; /* Ajusta la opacidad del fondo */
   }

@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
   // Método para cerrar sesión
   async signOut() {
     await this.supaSvc.signOut();
+    console.log('Sesión cerrada');
   }
 
     // Agregar o actualizar un estacionamiento
