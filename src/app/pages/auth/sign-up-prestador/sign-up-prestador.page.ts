@@ -3,22 +3,20 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SupabaseService } from 'src/app/services/supabase.service';
 
 
-
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.page.html',
-  styleUrls: ['./sign-up.page.scss'],
-  
+  selector: 'app-sign-up-prestador',
+  templateUrl: './sign-up-prestador.page.html',
+  styleUrls: ['./sign-up-prestador.page.scss'],
 })
-export class SignUpPage implements OnInit {
+export class SignUpPrestadorPage implements OnInit {
 
   supaSvc = inject(SupabaseService);
-  
 
   form = new FormGroup({
-    persona_id: new FormControl(''),
+    prestador_id: new FormControl(''),
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
     apellido : new FormControl('', [Validators.required, Validators.minLength(3)]),
+    direccion: new FormControl('', [Validators.required, Validators.minLength(3)]),
     rut: new FormControl('', [Validators.required]),
     telefono: new FormControl('', [Validators.required]),
     email: new FormControl<any>('', [Validators.required, Validators.email]),
@@ -35,7 +33,7 @@ export class SignUpPage implements OnInit {
 
   async submit() {
     console.log(this.form.value);
-    const { nombre, apellido, rut, telefono, email, password } = this.form.value;
+    const { nombre, apellido, direccion , rut, telefono, email, password } = this.form.value;
     
 
     // Crear loading
@@ -52,11 +50,11 @@ export class SignUpPage implements OnInit {
       }
 
       // Usar el UUID generado por Supabase para persona_id
-      const persona_id = signUpData.user.id;
-      const additionalData = { persona_id, nombre, apellido, rut, telefono, email };
+      const prestador_id = signUpData.user.id;
+      const additionalData = { prestador_id, nombre, apellido, direccion, rut, telefono, email };
 
       // Insertar datos adicionales en la tabla 'persona'
-      const { error: insertError } = await this.supaSvc.insertDocument('persona', additionalData);
+      const { error: insertError } = await this.supaSvc.insertDocument('prestador', additionalData);
       if (insertError) {
         console.error('Error al insertar datos adicionales:', insertError.message);
         alert(`Error: ${insertError.message}`);
@@ -89,3 +87,4 @@ export class SignUpPage implements OnInit {
     }
   }
  }
+

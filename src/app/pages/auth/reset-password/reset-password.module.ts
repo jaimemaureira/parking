@@ -4,20 +4,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ForgotPasswordPageRoutingModule } from './forgot-password-routing.module';
+import { ResetPasswordPageRoutingModule } from './reset-password-routing.module';
 
-import { ForgotPasswordPage } from './forgot-password.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { ResetPasswordPage } from './reset-password.page';
+import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ForgotPasswordPageRoutingModule,
+    ResetPasswordPageRoutingModule,
     ReactiveFormsModule,
     SharedModule
-  ],
-  declarations: [ForgotPasswordPage]
+],
+  declarations: [ResetPasswordPage]
 })
-export class ForgotPasswordPageModule {}
+export class ResetPasswordPageModule {}

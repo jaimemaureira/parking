@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ForgotPasswordPageRoutingModule } from './forgot-password-routing.module';
+import { SignUpPrestadorPageRoutingModule } from './sign-up-prestador-routing.module';
 
-import { ForgotPasswordPage } from './forgot-password.page';
+import { SignUpPrestadorPage } from './sign-up-prestador.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -14,10 +14,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ForgotPasswordPageRoutingModule,
+    SignUpPrestadorPageRoutingModule,
     ReactiveFormsModule,
     SharedModule
   ],
-  declarations: [ForgotPasswordPage]
+  declarations: [SignUpPrestadorPage]
 })
-export class ForgotPasswordPageModule {}
+export class SignUpPrestadorPageModule {}
