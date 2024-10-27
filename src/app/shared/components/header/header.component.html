@@ -1,8 +1,19 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title>
-      <strong>{{title}}</strong>
-      <div class ="admin">DuocUC Parking</div>
+
+<ion-buttons slot="start">
+  <!-- back button -->
+  <ion-back-button *ngIf="backButton" [defaultHref]="backButton"></ion-back-button>
+  
+  <!-- dismiss modal -->
+  <ion-button (click)="dismissModal()" *ngIf="ismodal"> <!-- boton para cerrar el modal -->
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+</ion-buttons>
+
+      <ion-title>
+        <strong>{{title}}</strong>
+        <div class="admin">DuocUC Parking</div>
       </ion-title>
-  </ion-toolbar>
-</ion-header>
+    </ion-toolbar>
+  </ion-header>

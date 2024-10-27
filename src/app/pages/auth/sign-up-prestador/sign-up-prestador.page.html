@@ -1,0 +1,143 @@
+<app-header backButton="/auth" title="Registro prestador de servicio"></app-header>
+
+
+<ion-content>
+
+  <div class="d-flex-center">
+
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()" >
+
+      <app-logo></app-logo>
+
+      <!-- NOMBRE -->
+      <app-custom-input
+        autocomplete="nombre"
+        icon="person-outline"
+        [control]="form.controls.nombre"
+        type="text"
+        label="Nombre"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.nombre.errors && form.controls.nombre.touched">
+        <div *ngIf="form.controls.nombre.errors?.['required']">El correo es
+          obligatorio</div>
+        <div *ngIf="form.controls.nombre.errors?.['minlenght']">El nombre debe
+          tener minimo 4 caracteres</div>
+      </div>
+
+      <!-- APELLIDO -->
+
+      <app-custom-input
+        autocomplete="apellido"
+        icon="person-outline"
+        [control]="form.controls.apellido"
+        type="text"
+        label="Apellidos"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.apellido.errors && form.controls.apellido.touched">
+        <div *ngIf="form.controls.apellido.errors?.['required']">El correo es
+          obligatorio</div>
+        <div *ngIf="form.controls.apellido.errors?.['minlenght']">El nombre debe
+          tener minimo 4 caracteres</div>
+      </div>
+
+      <!-- rut -->
+      
+      <app-custom-input
+              
+        autocomplete="rut"
+        icon="card-outline"
+        [control]="form.controls.rut"
+        type="text"
+        label="RUT"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.rut.errors && form.controls.rut.touched">
+        <div *ngIf="form.controls.rut.errors?.['required']">El rut es obligatorio</div>
+      </div>
+
+      <!-- direccion -->
+      
+      <app-custom-input
+              
+        autocomplete="direccion"
+        icon="home-outline"
+        [control]="form.controls.direccion"
+        type="text"
+        label="direccion"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.direccion.errors && form.controls.direccion.touched">
+        <div *ngIf="form.controls.direccion.errors?.['required']">La dirección es obligatoria</div>
+      </div>
+
+      <!-- Telefono -->       
+      
+      <app-custom-input        
+        autocomplete="telefono"
+        icon = "phone-portrait-outline"              
+        [control]="form.controls.telefono"
+        type="text"
+        label="Teléfono"></app-custom-input>
+      
+
+      <div class="validators"
+        *ngIf="form.controls.telefono.errors && form.controls.telefono.touched">
+        <div *ngIf="form.controls.telefono.errors?.['required']">El teléfono es obligatorio</div>
+      </div>
+
+      <!-- Email -->
+      <app-custom-input
+        autocomplete="email"
+        icon="mail-outline"
+        [control]="form.controls.email"        
+        type="email"
+        label="Correo electronico"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.email.errors && form.controls.email.touched">
+        <div *ngIf="form.controls.email.errors?.['required']">El correo es
+          obligatorio</div>
+        <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo
+          valido</div>
+      </div>
+
+      <!-- password -->
+      <app-custom-input
+        [control]="form.controls.password"
+        icon="lock-closed-outline"
+        type="password"
+        label="Password"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.password.errors && form.controls.password.touched">
+        <div *ngIf="form.controls.password.errors?.['required']">La password es
+          obligatoria</div>
+      </div>      
+
+      <!-- repassword -->
+
+      <app-custom-input
+        [control]="form.controls.repassword"
+        icon="lock-closed-outline"
+        type="password"
+        label=" Confirma Password"></app-custom-input>
+
+      <div class="validators"
+        *ngIf="form.controls.repassword.errors && form.controls.repassword.touched">
+        <div *ngIf="form.controls.repassword.errors?.['required']">La password es
+          obligatoria</div>
+      </div>
+
+      <ion-button expand="block" mode="ios" class="submit" type="submit"
+        [disabled]="form.invalid">
+        Registrate
+        <ion-icon slot="end" name="person-add-outline"></ion-icon>
+      </ion-button>
+
+    </form>
+
+  </div>
+ 
+</ion-content>

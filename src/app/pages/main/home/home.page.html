@@ -1,0 +1,68 @@
+<app-header title="Administrar Estacionamientos">
+</app-header>
+
+<ion-content>
+
+  <div class="menu-home">
+
+    <div class="img-avatar">
+      <ion-icon class="image-icon" name="image-outline"></ion-icon>
+      <br>
+      <a href>Tú Perfil</a>
+      <br>
+      
+        
+        
+      
+    </div>
+
+    <h6><p>Panel de administracion de estacionamientos</p></h6>
+
+    <!-- ======== nuevo estacionamiento ========= -->
+
+    <ion-button vertical="3" color="primary" mode="ios"
+      (click)="addUpdateProduct()" class="add-circle-outline">
+      <ion-icon name="add-circle-outline"></ion-icon>&nbsp;
+      Agregar estacionamientos
+    </ion-button>
+
+    <ion-button vertical="3" color="primary" mode="ios"
+      routerLink="/parking-view" class="add-circle-outline">
+      <ion-icon name="eye-outline"></ion-icon>&nbsp;
+      Ver estacionamientos
+    </ion-button>
+
+    <ion-button vertical color="primary" mode="ios" (click)="addUpdateProduct()"
+      class="add-circle-outline">
+      <ion-icon name="car-sport-outline"></ion-icon>&nbsp;
+      Consigue estacionamiento
+    </ion-button>
+
+    <ion-button vertical color="primary" mode="ios" (click)="addUpdateProduct()"
+      class="add-circle-outline">
+      <ion-icon name="car-sport-outline"></ion-icon>&nbsp;
+      Agrega un vehiculo
+    </ion-button>
+
+    <ion-button vertical color="primary" mode="ios" (click)="addUpdateProduct()"
+      class="add-circle-outline">
+      <ion-icon name="accessibility-outline"></ion-icon>&nbsp;
+      Gestor de usuarios
+    </ion-button>
+
+    <ion-button vertical color="primary" mode="ios" (click)="addUpdateProduct()"
+      class="add-circle-outline">
+      <ion-icon name="accessibility-outline"></ion-icon>&nbsp;
+      Gestor de prestadores
+    </ion-button>
+
+    
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="signOut()">
+        <ion-icon name="exit-outline"></ion-icon>&nbsp;
+      </ion-fab-button>
+    </ion-fab>
+
+  </div>
+
+</ion-content>
