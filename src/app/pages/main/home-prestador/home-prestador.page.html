@@ -21,14 +21,14 @@
     <!-- ======== nuevo estacionameinto ========= -->
 
     <ion-button vertical="3" color="primary" mode="ios"
-      (click)="addUpdateProduct()" class="add-circle-outline">
+    (keydown.enter)="addUpdateProduct()" (click)="addUpdateProduct()" class="add-circle-outline">
       <ion-icon name="add-circle-outline"></ion-icon>&nbsp;
       Agregar estacionamientos
     </ion-button>
 
 
     <ion-button vertical color="primary" mode="ios" (click)="addUpdateProduct()"
-      class="add-circle-outline">
+    (keydown.enter)="addUpdateProduct()" class="add-circle-outline">
       <ion-icon name="car-sport-outline"></ion-icon>&nbsp;
       Consigue estacionamiento
     </ion-button>
