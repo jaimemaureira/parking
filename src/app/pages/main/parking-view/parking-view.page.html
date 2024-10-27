@@ -1,0 +1,40 @@
+<app-header backButton="/main/home"
+  title=" Admin Estacionamientos"></app-header>
+
+<ion-content>
+
+  <div class="menu-home">
+    <app-logo></app-logo>
+    <ion-list>
+      <ion-item-sliding class="menu-home" *ngFor="let p of parkings">
+        <ion-item>
+          <ion-card>
+            <img [src]="p.imagen" />
+            <ion-card-header>
+              <ion-card-title>{{p.nombre_parking}}</ion-card-title>              
+            </ion-card-header>
+            <ion-card-content>
+              <strong>Direccion:</strong>{{p.direccion}} 
+              <br> 
+              <strong>valor:</strong> ${{p.valor }} por minuto
+              <br>
+              <strong>capacidad:</strong>{{p.capacidad}}           
+              
+              
+            </ion-card-content>
+          </ion-card>
+          <ion-item-options>
+            <ion-item-option class="option-btn">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-item-option>
+
+            <ion-item-option class="option-btn" color="danger">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+
+  </div>
+</ion-content>

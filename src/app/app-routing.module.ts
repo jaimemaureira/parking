@@ -11,20 +11,27 @@ const routes: Routes = [
   },
 
   { path: 'reset-password', 
-      loadChildren: () => import('./pages/auth/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+      loadChildren: () => import('./pages/auth/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule), canActivate: [NoAuthGuard]
   },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
+    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule), canActivate: [NoAuthGuard]
   },
   {
     path: 'main',
-    loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
+    loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule),canActivate: [AuthGuard]
   },
   {
     path: 'sign-up-prestador',
-    loadChildren: () => import('./pages/auth/sign-up-prestador/sign-up-prestador.module').then( m => m.SignUpPrestadorPageModule), canActivate: [NoAuthGuard]
+    loadChildren: () => import('./pages/auth/sign-up-prestador/sign-up-prestador.module').then( m => m.SignUpPrestadorPageModule), canActivate: [AuthGuard]
   },
+  {
+    path: 'parking-view',
+    loadChildren: () => import('./pages/main/parking-view/parking-view.module').then(m => m.ParkingViewPageModule),canActivate: [AuthGuard]
+  },
+  
+  
+
 
 ];
 

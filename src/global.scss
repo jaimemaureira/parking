@@ -87,6 +87,11 @@ ion-button {
     padding: 20px;
 }
 
+.button_register {    
+    text-align: center;
+    
+}
+
 .parking-item {
     --padding-top: 20px;
 
@@ -172,6 +177,39 @@ ion-text h1 {
 
   .admin {
     color: #faaf03;
+  }
+
+  //css de los botones del home
+
+  .img-avatar{
+    padding-top: 25px;
+
+    ion-icon{
+        height: 100px;
+        width: 100px;
+    }
+
+    ion-card{
+        width: 300px;
+        align-items: center;
+    }
+
+    
+    
+  }
+  .menu-home {
+    color: #035dfa;
+    text-align: center;
+
+    
+
+    
+
+    ion-button{
+        width: 300px;
+        height: 30px;
+        padding-top: 30px;
+    }
   }
 
  

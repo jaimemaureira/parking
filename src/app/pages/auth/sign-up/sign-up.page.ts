@@ -17,6 +17,7 @@ export class SignUpPage implements OnInit {
 
   form = new FormGroup({
     persona_id: new FormControl(''),
+    imagen: new FormControl('', [Validators.required]),
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
     apellido : new FormControl('', [Validators.required, Validators.minLength(3)]),
     rut: new FormControl('', [Validators.required]),
@@ -32,6 +33,7 @@ export class SignUpPage implements OnInit {
 
   ngOnInit() {
   }
+
 
   async submit() {
     console.log(this.form.value);

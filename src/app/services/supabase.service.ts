@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,27 +15,27 @@ export class SupabaseService {
   loadingCtrl = inject(LoadingController);
   router = inject(Router);
   modalCtrl = inject(ModalController)
-
   
 
-async takePicture(promptLabelHeader: string) {
-  return await Camera.getPhoto({
-    quality: 90,
-    allowEditing: true,
-    resultType: CameraResultType.DataUrl,
-    source: CameraSource.Prompt,
-    promptLabelHeader,
-    promptLabelPhoto: 'Selecciona una imagen',
-    promptLabelPicture: 'Toma una foto'
-  });
-
-  
-};
 
 
   constructor() {
     this.supabase = createClient(environment.supaApiUrl, environment.supaApiKey);
   }
+
+    
+//metodo para tomar fotos
+async takePicture(promptLabelHeader: string) {
+  return await Camera.getPhoto({
+    quality: 90,
+    allowEditing: true,
+    resultType: CameraResultType.DataUrl,// Especifica que el resultado debe ser una URL de datos
+    source: CameraSource.Prompt,// Especifica desde donde se adquiere la foto
+    promptLabelHeader,
+    promptLabelPhoto: 'Selecciona una imagen',
+    promptLabelPicture: 'Toma una foto'
+  });  
+};
 
    // Método para registrar un usuario
    async signUp(email: string, password: string): Promise<{ data: any; error: any }> {
@@ -58,28 +59,6 @@ async takePicture(promptLabelHeader: string) {
     return { data: insertedData, error };
   }
 
-  //metodo registro de usuarios
-  // async signUp(email: string, password: string, additionalData: any) {
-  //   const { data, error } = await this.supabase.auth.signUp({
-  //     email, password, options: { data: additionalData }
-  //   });
-
-    // Si el registro es exitoso, guarda los datos adicionales en la tabla persona
-    
-    // if (data?.user) {
-    //   const { error: profileError } = await this.supabase
-    //     .from(table)
-    //     .insert([additionalData]);
-
-    //   if (profileError) {
-    //     Swal.fire('Error', 'No se pudo guardar el perfil', 'error');
-    //     return { data: null, error: profileError };
-    //   }
-
-    // }
-
-  //   return { data, error };
-  // }  
 
   //metodo para iniciar sesion
   signIn(email: string, password: string) {
@@ -145,6 +124,20 @@ async takePicture(promptLabelHeader: string) {
     return user;
   }
 
+  // Obtener el usuario a través de la sesión
+async getUserId(): Promise<string | null> {
+  const { data: { session } } = await this.supabase.auth.getSession();
+
+  if (!session) {
+    console.error('No se encontró una sesión activa.');
+    return null;
+  }
+
+  return session.user.id;
+}
+
+  
+
   // =================== MODAL =================== //
 
   async presentModal(opts: ModalOptions) {
@@ -173,6 +166,20 @@ async takePicture(promptLabelHeader: string) {
   //   return { data: insertedData, error };
   // }
 
+
+  // Subir imágenes al storage de Supabase
+  async uploadFile(file: File, filePath: string): Promise<{ data: any; error: any }> {
+    const { error } = await this.supabase.storage.from('imagen-parking').upload(filePath, file);
+
+    if (error) {
+      console.error('Error al subir archivo:', error.message);
+      return { data: null, error };
+    }
+
+    const { data: publicUrlData } = this.supabase.storage.from('imagen-parking').getPublicUrl(filePath);
+    return { data: { publicURL: publicUrlData.publicUrl }, error: null };
+  }
+
   // modificar un documento
 
   async updateDocument(table: string, data: any, id: string) {
@@ -193,6 +200,31 @@ async takePicture(promptLabelHeader: string) {
     const { data, error } = await this.supabase.from(table).delete().match({ id });
     return { data, error };
   }
+
+  // Obtener todos los registros de la tabla 'parking'
+  async getParkings(): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('parking')
+      .select('*');
+
+    if (error) {
+      console.error('Error al obtener los estacionamientos:', error.message);
+      return [];
+    }
+
+    return data;
+  }
+
+  // Obtener las coordenadas de la dirección
+  // const location = await this.geocodingSvc.geocodeAddress(direccion);
+  // if (location) {
+  //   this.form.controls.latitud.setValue(location.lat);
+  //   this.form.controls.longitud.setValue(location.lng);
+  // } else {
+  //   throw new Error('No se pudieron obtener las coordenadas de la dirección proporcionada');
+  // }
+
+  
 
 }
 
