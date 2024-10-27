@@ -1,13 +1,25 @@
 <app-header [ismodal]="true" title="Agregar Estacionamientos"></app-header>
- <ion-content>
+<ion-content>
 
-  <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()" >
+  <form [formGroup]="form" class="ion-padding ion-text-center"
+    (ngSubmit)="submit()" (keypress.enter)="submit()">
 
-    
+    <!-- Si existe una imagen -->
+    <ion-avatar *ngIf="form.value.imagen">
+      <img [src]="form.value.imagen" />
+    </ion-avatar>
 
-<ion-button (click)="takeImage()" expand="block" fill="clear" shape="round">
-  Click me
-</ion-button>    
+    <!-- SI NO EXISTE UNA IMAGEN -->
+    <ion-icon class="image-icon" *ngIf="!form.value.imagen" name="image-outline"></ion-icon>
+
+    <br>
+
+
+    <!-- TOMAR FOTO (levanta un pront) -->
+    <ion-button mode="ios" (click)="takeImage()" size="small" shape="round">
+      Agregar fotografia estacionamiento
+      <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+    </ion-button>
 
     <!-- NOMBRE -->
     <app-custom-input
@@ -19,46 +31,66 @@
 
     <div class="validators"
       *ngIf="form.controls.nombre_parking.errors && form.controls.nombre_parking.touched">
-      <div *ngIf="form.controls.nombre_parking.errors?.['required']">El correo es
+      <div *ngIf="form.controls.nombre_parking.errors?.['required']">El correo
+        es
         obligatorio</div>
-      <div *ngIf="form.controls.nombre_parking.errors?.['minlenght']">El nombre debe
+      <div *ngIf="form.controls.nombre_parking.errors?.['minlenght']">El nombre
+        debe
         tener minimo 4 caracteres</div>
     </div>
 
-    
+    <!-- DIRECCION -->
+    <app-custom-input
+      autocomplete="Dirección"
+      icon="home-outline"
+      [control]="form.controls.direccion"
+      type="text"
+      label="Dirección"></app-custom-input>
+
+    <div class="validators"
+      *ngIf="form.controls.direccion && form.controls.direccion.touched">
+      <div *ngIf="form.controls.direccion.errors?.['required']">El correo es
+        obligatorio</div>
+      <div *ngIf="form.controls.direccion.errors?.['minlenght']">El nombre debe
+        tener minimo 4 caracteres</div>
+    </div>
 
     <!-- PRECIO -->
     <app-custom-input
+      icon="cash-outline"
       [control]="form.controls.valor"
       type="number"
       label="Precio"></app-custom-input>
 
     <div class="validators"
       *ngIf="form.controls.nombre_parking.errors && form.controls.valor.touched">
-      <div *ngIf="form.controls.valor.errors?.['required']">Este Campo es requerido</div>
-      <div *ngIf="form.controls.valor.errors?.['min']">El precio minimo debe ser 0</div>
+      <div *ngIf="form.controls.valor.errors?.['required']">Este Campo es
+        requerido</div>
+      <div *ngIf="form.controls.valor.errors?.['min']">El precio minimo debe ser
+        0</div>
     </div>
 
     <!-- UNIDADES A ARRENDAR -->
     <app-custom-input
+      icon="car-outline"
       [control]="form.controls.capacidad"
       type="number"
       label="Capacidad"></app-custom-input>
 
     <div class="validators"
       *ngIf="form.controls.nombre_parking.errors && form.controls.capacidad.touched">
-      <div *ngIf="form.controls.capacidad.errors?.['required']">Este Campo es requerido</div>
-      <div *ngIf="form.controls.capacidad.errors?.['min']">El valor minimo debe ser 1</div>
+      <div *ngIf="form.controls.capacidad.errors?.['required']">Este Campo es
+        requerido</div>
+      <div *ngIf="form.controls.capacidad.errors?.['min']">El valor minimo debe
+        ser 1</div>
     </div>
 
-    
-
-    <ion-button expand="block" mode="ios" class="submit" type="submit"
+    <ion-button mode="ios" class="submit" type="submit"
       [disabled]="form.invalid">
       Agregar estacionamiento
-      <ion-icon slot="end" name="person-add-outline"></ion-icon>
+      <ion-icon slot="end" name="car-outline"></ion-icon>
     </ion-button>
 
   </form>
 
- </ion-content>
+</ion-content>
