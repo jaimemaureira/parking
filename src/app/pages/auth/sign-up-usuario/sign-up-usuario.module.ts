@@ -8,6 +8,7 @@ import { SignUpUsuarioPageRoutingModule } from './sign-up-usuario-routing.module
 
 import { SignUpUsuarioPage } from './sign-up-usuario.page';
 import { SharedModule } from "../../../shared/shared.module";
+import { FormFieldModule } from "../../../form-field/form-field.module";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { SharedModule } from "../../../shared/shared.module";
     IonicModule,
     SignUpUsuarioPageRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    FormFieldModule
 ],
   declarations: [SignUpUsuarioPage]
 })

@@ -26,9 +26,11 @@ export class SignUpUsuarioPage implements OnInit {
   });
 
   constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
+
+  
 
   async submit() {
     console.log(this.form.value);
