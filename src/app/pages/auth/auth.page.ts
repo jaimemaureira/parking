@@ -35,8 +35,10 @@ export class AuthPage implements OnInit {
     const { email, password } = this.form.value;
     
     // Crear loading
-    const loading = await this.supaSvc.loading()
-    await loading.present();
+    // const loading = await this.loadingCtrl.create({
+    //   message: 'Por favor espere...',
+    //   spinner: 'crescent',
+    // });
 
     // Iniciar sesión
     try {
@@ -73,9 +75,9 @@ export class AuthPage implements OnInit {
         alert('Error desconocido');
       }
       // Cerrar loading
-    } finally {
-      await loading.dismiss();
-    }
+    // } finally {
+    //   await loading.dismiss();
+    // }
   }
 }
-  
+}

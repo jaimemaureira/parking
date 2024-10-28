@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'sign-up-prestador',
     loadChildren: () => import('./sign-up-prestador/sign-up-prestador.module').then( m => m.SignUpPrestadorPageModule)
+  },
+  {
+    path: 'sign-up-usuario',
+    loadChildren: () => import('./sign-up-usuario/sign-up-usuario.module').then( m => m.SignUpUsuarioPageModule)
   }
 
 ];
