@@ -31,16 +31,20 @@
               <br>
             </ion-card-content>
           </ion-card>
+        </ion-item>
+
           <ion-item-options>
             <ion-item-option class="option-btn">
               <ion-icon name="create-outline"></ion-icon>
-            </ion-item-option>
+              Modificar
+            </ion-item-option >
 
-            <ion-item-option class="option-btn" color="danger" style="margin-top: 10px; margin-bottom: 10p">
+            <ion-item-option (click)="deleteParking(p.parking_id)" class="option-btn" color="danger" style="margin-top: 10px; margin-bottom: 10px" expandable>
               <ion-icon name="trash-outline"></ion-icon>
+              Eliminar
             </ion-item-option>
           </ion-item-options>
-        </ion-item>
+        
       </ion-item-sliding>
     </ion-list>
 

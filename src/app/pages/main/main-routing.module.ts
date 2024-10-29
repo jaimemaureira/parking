@@ -29,6 +29,10 @@ const routes: Routes = [
     path: 'arriendo',
     loadChildren: () => import('./arriendo/arriendo.module').then( m => m.ArriendoPageModule)
   },
+  {
+    path: 'vehiculo',
+    loadChildren: () => import('./vehiculo/vehiculo.module').then( m => m.VehiculoPageModule)
+  },
   
 
 ];

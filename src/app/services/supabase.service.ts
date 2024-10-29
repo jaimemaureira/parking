@@ -215,6 +215,27 @@ async getUserId(): Promise<string | null> {
     return data;
   }
 
+  // Método para eliminar un estacionamiento
+  async deleteParking(parkingId: string): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('parking') // Nombre de la tabla que se va a modificar
+      .delete()
+      .eq('parking_id', parkingId); // Filtra por el campo parking_id
+
+    if (error) {
+      throw new Error(`Error eliminando el estacionamiento: ${error.message}`);
+    }
+    return data;
+  }
+
+  //Metodo para guardar vehiculos en la ptabla vehiculo
+  async saveVehicle(data: any, userUuid: string) {
+    const { error } = await this.supabase
+      .from('vehiculo')
+      .insert([{ ...data, usuario_uuid: userUuid }]);
+    return error;
+  }
+
   // Obtener las coordenadas de la dirección
   // const location = await this.geocodingSvc.geocodeAddress(direccion);
   // if (location) {

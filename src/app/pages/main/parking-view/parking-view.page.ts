@@ -9,11 +9,13 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 })
 export class ParkingViewPage implements OnInit {
 
-  parkings: any [] = [];
+  parkings: any [] = []; // aqui se guarda la lista de estacionamientos
 
   supaSvc = inject(SupabaseService);
   alertCtrlr = inject(AlertController);
   loadingCtrl = inject(LoadingController);
+
+  
 
   constructor() { }
 
@@ -25,11 +27,13 @@ export class ParkingViewPage implements OnInit {
   
 
   async loadParkings() {
-
-    const loading = await this.supaSvc.loading()
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando estacionamientos...'
+    });
     await loading.present();
     try {
-      this.parkings = await this.supaSvc.getParkings();
+      const data = await this.supaSvc.getParkings();
+      this.parkings = data;
       if (!this.parkings.length) {
         console.warn('No se encontraron estacionamientos.');
       }
@@ -38,60 +42,7 @@ export class ParkingViewPage implements OnInit {
     }finally {
       await loading.dismiss();
     }
-  }
-
-  async confirmDeleteParking(parking: any) {
-    const alert = await this.alertCtrlr.create({
-      header: 'Confirmar eliminación',
-      message: '¿Estás seguro de que deseas eliminar este estacionamiento?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Eliminación cancelada');
-          }
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.executeDeleteParking(parking);
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async executeDeleteParking(parking: any) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Eliminando estacionamiento...',
-    });
-    await loading.present();
-    try {
-      const { error } = await this.supaSvc.supabase
-        .from('parking')
-        .delete()
-        .eq('id', parking.id);
-      if (error) {
-        console.error('Error eliminando estacionamiento:', error);
-        alert(`Error: ${error.message}`);
-        return;
-      }
-      
-    } finally {
-      await loading.dismiss();
-    }
-  }
-  
-
-  
-
-
-    
-  
+  } 
   
   disponible(parking: any){
     if(parking.capacidad !== undefined && parking.arrendado !== undefined){
@@ -107,7 +58,38 @@ export class ParkingViewPage implements OnInit {
     return parking.reserva !== undefined ? parking.reserva : 0;
   }
 
-  
-  
+  async deleteParking(parkingId: string) {
+    const alert = await this.alertCtrlr.create({
+      header: 'Confirmar Eliminación',
+      message: '¿Estás seguro de que deseas eliminar este estacionamiento?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            try {
+              const loading = await this.loadingCtrl.create({
+                message: 'Eliminando estacionamiento...'
+              });
+              await loading.present();
+
+              await this.supaSvc.deleteParking(parkingId);
+              console.log('Estacionamiento eliminado correctamente');
+              this.loadParkings(); // Llamar al método para recargar la lista de estacionamientos
+
+              await loading.dismiss();
+            } catch (error) {
+              console.error('Error eliminando el estacionamiento', error);
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }  
 
 }

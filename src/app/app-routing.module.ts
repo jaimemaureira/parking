@@ -30,6 +30,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/parking-view/parking-view.module').then(m => m.ParkingViewPageModule),canActivate: [AuthGuard]
   },
 
+  {
+    path: 'vehiculo',
+    loadChildren: () => import('./pages/main/vehiculo/vehiculo.module').then(m => m.VehiculoPageModule),canActivate: [AuthGuard]
+  },
+
+
   
   
   
