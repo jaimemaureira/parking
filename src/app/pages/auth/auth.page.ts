@@ -53,12 +53,7 @@ export class AuthPage implements OnInit {
 
       // Mostrar mensaje de inicio de sesión exitoso
       console.log('Inicio de sesión exitoso:', data);
-      Swal.fire({
-        icon: 'success',
-        title: 'Inicio de sesión exitoso',
-        showConfirmButton: false,
-        timer: 2500
-      });
+      alert('Inicio de sesión exitoso');
       
       // Redirigir a la página principal
       this.supaSvc.routerlink('/main/home');

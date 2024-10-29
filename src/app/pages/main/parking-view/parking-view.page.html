@@ -18,9 +18,17 @@
               <br> 
               <strong>valor:</strong> ${{p.valor }} por minuto
               <br>
-              <strong>capacidad:</strong>{{p.capacidad}}           
-              
-              
+              <strong>capacidad:</strong>{{p.capacidad}}
+              <br>
+              <strong>Disponible:</strong>{{disponible(p)}}
+              <ion-icon name="ellipse" class="ellipse-outline" style="color: rgb(7, 245, 46);"></ion-icon>
+              <br>
+              <strong>Reservas:</strong>{{reserva(p)}}
+              <ion-icon name="ellipse" class="ellipse-outline" style="color: orange"></ion-icon>
+              <br>
+              <ion-button expand="block">Reserva</ion-button>
+              <ion-button expand="block">Arrienda</ion-button>
+              <br>
             </ion-card-content>
           </ion-card>
           <ion-item-options>
@@ -28,7 +36,7 @@
               <ion-icon name="create-outline"></ion-icon>
             </ion-item-option>
 
-            <ion-item-option class="option-btn" color="danger">
+            <ion-item-option class="option-btn" color="danger" style="margin-top: 10px; margin-bottom: 10p">
               <ion-icon name="trash-outline"></ion-icon>
             </ion-item-option>
           </ion-item-options>

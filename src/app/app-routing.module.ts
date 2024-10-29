@@ -29,6 +29,8 @@ const routes: Routes = [
     path: 'parking-view',
     loadChildren: () => import('./pages/main/parking-view/parking-view.module').then(m => m.ParkingViewPageModule),canActivate: [AuthGuard]
   },
+
+  
   
   
 

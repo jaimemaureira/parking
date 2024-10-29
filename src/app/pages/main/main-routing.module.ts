@@ -25,6 +25,10 @@ const routes: Routes = [
     path: 'parking-view',
     loadChildren: () => import('./parking-view/parking-view.module').then( m => m.ParkingViewPageModule)
   },
+  {
+    path: 'arriendo',
+    loadChildren: () => import('./arriendo/arriendo.module').then( m => m.ArriendoPageModule)
+  },
   
 
 ];
