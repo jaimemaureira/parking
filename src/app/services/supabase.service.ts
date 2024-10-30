@@ -15,7 +15,7 @@ export class SupabaseService {
   loadingCtrl = inject(LoadingController);
   router = inject(Router);
   modalCtrl = inject(ModalController)
-  
+
 
 
 
@@ -23,22 +23,22 @@ export class SupabaseService {
     this.supabase = createClient(environment.supaApiUrl, environment.supaApiKey);
   }
 
-    
-//metodo para tomar fotos
-async takePicture(promptLabelHeader: string) {
-  return await Camera.getPhoto({
-    quality: 90,
-    allowEditing: true,
-    resultType: CameraResultType.DataUrl,// Especifica que el resultado debe ser una URL de datos
-    source: CameraSource.Prompt,// Especifica desde donde se adquiere la foto
-    promptLabelHeader,
-    promptLabelPhoto: 'Selecciona una imagen',
-    promptLabelPicture: 'Toma una foto'
-  });  
-};
 
-   // Método para registrar un usuario
-   async signUp(email: string, password: string): Promise<{ data: any; error: any }> {
+  //metodo para tomar fotos
+  async takePicture(promptLabelHeader: string) {
+    return await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.DataUrl,// Especifica que el resultado debe ser una URL de datos
+      source: CameraSource.Prompt,// Especifica desde donde se adquiere la foto
+      promptLabelHeader,
+      promptLabelPhoto: 'Selecciona una imagen',
+      promptLabelPicture: 'Toma una foto'
+    });
+  };
+
+  // Método para registrar un usuario
+  async signUp(email: string, password: string): Promise<{ data: any; error: any }> {
     const { data, error } = await this.supabase.auth.signUp({
       email, password
     });
@@ -125,18 +125,28 @@ async takePicture(promptLabelHeader: string) {
   }
 
   // Obtener el usuario a través de la sesión
-async getUserId(): Promise<string | null> {
-  const { data: { session } } = await this.supabase.auth.getSession();
-
-  if (!session) {
-    console.error('No se encontró una sesión activa.');
-    return null;
+  async getUserId(): Promise<string | null> {
+    const { data: { session } } = await this.supabase.auth.getSession();
+    return session ? session.user.id : null;
   }
 
-  return session.user.id;
-}
+   // Método para obtener role_id
+   async getRole(role_id: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('role')
+      .select('id')
+      .eq('role_id', role_id)
+      .single();
 
-  
+    if (error) {
+      console.error('Error al obtener role_id:', error.message);
+      return null;
+    }
+
+    return role_id;
+  }
+
+
 
   // =================== MODAL =================== //
 
@@ -156,12 +166,12 @@ async getUserId(): Promise<string | null> {
 
   // =================== BASE DE DATOS =================== //
 
-   // Método para insertar un documento en una tabla
+  // Método para insertar un documento en una tabla
   // async insertDocument(_table: string, data: any): Promise<{ data: any; error: any }> {
   //   const { data: insertedData, error } = await this.supabase
   //     .from('parking')
   //     .insert([data]);
-      
+
 
   //   return { data: insertedData, error };
   // }
@@ -228,12 +238,12 @@ async getUserId(): Promise<string | null> {
     return data;
   }
 
-  //Metodo para guardar vehiculos en la ptabla vehiculo
-  async saveVehicle(data: any, userUuid: string) {
-    const { error } = await this.supabase
+  //Metodo para guardar vehiculos en la tabla vehiculo
+  async saveVehicle(data: { patente: string; marca: string; modelo: string; color: string; tipo_vehiculo: string; user_id: string }) {
+    const { data: vehiculoData, error } = await this.supabase
       .from('vehiculo')
-      .insert([{ ...data, usuario_uuid: userUuid }]);
-    return error;
+      .insert([data]);
+    return { data: vehiculoData, error };
   }
 
   // Obtener las coordenadas de la dirección
@@ -245,7 +255,7 @@ async getUserId(): Promise<string | null> {
   //   throw new Error('No se pudieron obtener las coordenadas de la dirección proporcionada');
   // }
 
-  
+
 
 }
 
