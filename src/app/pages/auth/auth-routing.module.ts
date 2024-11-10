@@ -7,7 +7,8 @@ const routes: Routes = [
   {
     path: '',
     component: AuthPage
-  },  {
+  },
+  {
     path: 'sign-up',
     loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
@@ -27,6 +28,8 @@ const routes: Routes = [
     path: 'sign-up-usuario',
     loadChildren: () => import('./sign-up-usuario/sign-up-usuario.module').then( m => m.SignUpUsuarioPageModule)
   }
+
+
 
 ];
 

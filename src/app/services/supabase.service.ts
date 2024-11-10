@@ -131,20 +131,21 @@ export class SupabaseService {
   }
 
    // Método para obtener role_id
-   async getRole(role_id: string): Promise<string | null> {
+   async getRole(roleName: string ): Promise<string | null> {
     const { data, error } = await this.supabase
       .from('role')
-      .select('id')
-      .eq('role_id', role_id)
+      .select('role_id')
+      .eq('nombre_role', roleName) 
       .single();
 
-    if (error) {
-      console.error('Error al obtener role_id:', error.message);
-      return null;
-    }
-
-    return role_id;
-  }
+      if (error) {
+        console.error(`Error al obtener role_id para ${roleName}:`, error.message);
+        return null;
+      }
+    
+      // Devuelve el role_id si se encuentra en la base de datos, o null si no
+      return data ? data.role_id : null;
+    } 
 
 
 

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
-import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-auth',
@@ -25,15 +25,15 @@ export class AuthPage implements OnInit {
 
   ngOnInit() {
   }
-  
+
   //metodo para iniciar sesion
-  async submit(){
+  async submit() {
     // Mostrar datos del formulario por consola
     console.log(this.form.value);
 
     // Obtener email y password
     const { email, password } = this.form.value;
-    
+
     // Crear loading
     // const loading = await this.loadingCtrl.create({
     //   message: 'Por favor espere...',
@@ -42,7 +42,7 @@ export class AuthPage implements OnInit {
 
     // Iniciar sesión
     try {
-      
+
       const { data, error } = await this.supaSvc.signIn(email, password);
       if (error) {
         // Mostrar mensaje de error
@@ -54,9 +54,9 @@ export class AuthPage implements OnInit {
       // Mostrar mensaje de inicio de sesión exitoso
       console.log('Inicio de sesión exitoso:', data);
       alert('Inicio de sesión exitoso');
-      
-      // Redirigir a la página principal
-      this.supaSvc.routerlink('/main/home');
+
+     
+
 
       // Limpiar formulario
       this.form.reset();
@@ -70,9 +70,9 @@ export class AuthPage implements OnInit {
         alert('Error desconocido');
       }
       // Cerrar loading
-    // } finally {
-    //   await loading.dismiss();
-    // }
+      // } finally {
+      //   await loading.dismiss();
+      // }
+    }
   }
-}
 }

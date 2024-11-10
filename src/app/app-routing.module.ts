@@ -35,6 +35,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/vehiculo/vehiculo.module').then(m => m.VehiculoPageModule),canActivate: [AuthGuard]
   },
 
+  {
+    path: 'home-prestador',
+    loadChildren: () => import('./pages/main/home-prestador/home-prestador.module').then(m => m.HomePrestadorPageModule),canActivate: [AuthGuard]
+  },
+
 
   
   

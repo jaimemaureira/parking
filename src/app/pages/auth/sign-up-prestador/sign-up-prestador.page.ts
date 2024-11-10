@@ -51,9 +51,10 @@ export class SignUpPrestadorPage implements OnInit {
 
       // Usar el UUID generado por Supabase para persona_id
       const prestador_id = signUpData.user.id;
-      const additionalData = { prestador_id, nombre, apellido, direccion, rut, telefono, email };
+      const role_id = await this.supaSvc.getRole('Prestador')
+      const additionalData = { prestador_id, nombre, apellido, direccion, rut, telefono, email, role_id };
 
-      // Insertar datos adicionales en la tabla 'persona'
+      // Insertar datos adicionales en la tabla 'prestador'
       const { error: insertError } = await this.supaSvc.insertDocument('prestador', additionalData);
       if (insertError) {
         console.error('Error al insertar datos adicionales:', insertError.message);
