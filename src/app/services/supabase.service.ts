@@ -146,7 +146,13 @@ export class SupabaseService {
       // Devuelve el role_id si se encuentra en la base de datos, o null si no
       return data ? data.role_id : null;
     } 
-
+  
+  //Redirigir mediante el rol
+  async redirectByRole(userId: string){
+    const roleIdPrestador = await this.getRole('Prestador');
+    const roleIdUsuario = await this.getRole('Usuario');
+    const roleAdministrador = await this.getRole('Administrador');
+  }
 
 
   // =================== MODAL =================== //

@@ -55,6 +55,9 @@ export class AuthPage implements OnInit {
       console.log('Inicio de sesión exitoso:', data);
       alert('Inicio de sesión exitoso');
 
+      // Redirigir a la página principal segun rol
+      if (data.user.role_id )
+
      
 
 
