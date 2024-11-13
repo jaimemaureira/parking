@@ -130,28 +130,38 @@ export class SupabaseService {
     return session ? session.user.id : null;
   }
 
-   // Método para obtener role_id
-   async getRole(roleName: string ): Promise<string | null> {
+  // Método para obtener role_id
+  async getRole(roleName: string): Promise<string | null> {
     const { data, error } = await this.supabase
       .from('role')
       .select('role_id')
-      .eq('nombre_role', roleName) 
+      .eq('nombre_role', roleName)
       .single();
 
-      if (error) {
-        console.error(`Error al obtener role_id para ${roleName}:`, error.message);
-        return null;
-      }
-    
-      // Devuelve el role_id si se encuentra en la base de datos, o null si no
-      return data ? data.role_id : null;
-    } 
-  
+    if (error) {
+      console.error(`Error al obtener role_id para ${roleName}:`, error.message);
+      return null;
+    }
+
+    // Devuelve el role_id si se encuentra en la base de datos, o null si no
+    return data ? data.role_id : null;
+  }
+
   //Redirigir mediante el rol
-  async redirectByRole(userId: string){
-    const roleIdPrestador = await this.getRole('Prestador');
-    const roleIdUsuario = await this.getRole('Usuario');
-    const roleAdministrador = await this.getRole('Administrador');
+  async redirectByRole() {
+    const roleAdmin = await this.getRole('Administrador');
+    const rolePrestador = await this.getRole('Prestador');
+    const roleUsuario = await this.getRole('Usuario');
+  
+    if (roleAdmin) {
+      this.router.navigate(['/main/home']);
+    } else if (rolePrestador) {
+      this.router.navigate(['/main/home-prestador']);
+    } else if (roleUsuario) {
+      this.router.navigate(['/main/home-user']);
+    } else {
+      console.error('Error: No se pudo obtener el rol del usuario.');
+    }
   }
 
 
