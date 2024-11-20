@@ -63,6 +63,7 @@ export class SupabaseService {
   //metodo para iniciar sesion
   signIn(email: string, password: string) {
     return this.supabase.auth.signInWithPassword({ email, password });
+    
   }
 
   // Método para cerrar sesión y redirigir a la página de autenticación
@@ -147,22 +148,40 @@ export class SupabaseService {
     return data ? data.role_id : null;
   }
 
-  //Redirigir mediante el rol
-  async redirectByRole() {
-    const roleAdmin = await this.getRole('Administrador');
-    const rolePrestador = await this.getRole('Prestador');
-    const roleUsuario = await this.getRole('Usuario');
-  
-    if (roleAdmin) {
-      this.router.navigate(['/main/home']);
-    } else if (rolePrestador) {
-      this.router.navigate(['/main/home-prestador']);
-    } else if (roleUsuario) {
-      this.router.navigate(['/main/home-user']);
-    } else {
-      console.error('Error: No se pudo obtener el rol del usuario.');
+  // Método para obtener el email asociado al rol de un usuario
+  async getUserRole(email: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('roles_usuarios')
+      .select('rol')
+      .eq('email', email)
+      .single();
+
+    if (error) {
+      console.error(`Error al obtener rol para ${email}:`, error.message);
+      return null;
     }
+    // Devuelve el rol si se encuentra en la base de datos, o null si no
+  return data ? data.rol : null;
+}
+
+  //Redirigir mediante el rol
+  async redirectByRole(rol: string) {
+    
+    switch (rol) {
+      case 'admin':
+          window.location.href = '/main/home'; // Página del administrador
+          break;
+      case 'prestador':
+          window.location.href = '/main/home-prestador'; // Página del prestador
+          break;
+      case 'usuario':
+          window.location.href = '/main/home-user'; // Página del usuario
+          break;
+      default:
+          console.error("Rol no reconocido");
+          window.location.href = '/auth'; // Redirige al login si el rol no es válido
   }
+}
 
 
   // =================== MODAL =================== //

@@ -56,7 +56,7 @@ export class AuthPage implements OnInit {
       alert('Inicio de sesión exitoso');
 
       // Redirigir a la página principal segun rol
-      await this.supaSvc.redirectByRole();
+      await this.supaSvc.redirectByRole(" ");
 
      
 
