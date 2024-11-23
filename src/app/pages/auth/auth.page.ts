@@ -55,8 +55,16 @@ export class AuthPage implements OnInit {
       console.log('Inicio de sesión exitoso:', data);
       alert('Inicio de sesión exitoso');
 
+      // Obtener el rol del usuario
+      const role = await this.supaSvc.getUserRole(email);
+      if (!role) {
+        console.error('Error: No se pudo obtener el rol del usuario.');
+        alert('Error: No se pudo obtener el rol del usuario.');
+        return;
+      }
+
       // Redirigir a la página principal segun rol
-      await this.supaSvc.redirectByRole(" ");
+      await this.supaSvc.redirectByRole(role);
 
      
 

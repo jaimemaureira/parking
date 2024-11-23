@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 @Component({
   selector: 'app-parking-view',
@@ -10,6 +11,7 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 export class ParkingViewPage implements OnInit {
 
   parkings: any [] = []; // aqui se guarda la lista de estacionamientos
+  userRole: string = ''; // Rol del usuario
 
   supaSvc = inject(SupabaseService);
   alertCtrlr = inject(AlertController);
@@ -32,17 +34,50 @@ export class ParkingViewPage implements OnInit {
     });
     await loading.present();
     try {
-      const data = await this.supaSvc.getParkings();
+      // Obtener el usuario autenticado
+      const user = await this.supaSvc.getUser();
+      const userId = user?.id;
+      const userEmail = user?.email;
+  
+      if (!userId || !userEmail) {
+        console.error('No se pudo obtener el ID o el email del usuario');
+        alert('Error: No se pudo obtener el ID o el email del usuario');
+        return;
+      }
+  
+      // Obtener el rol del usuario autenticado
+      const roleName = await this.supaSvc.getUserRole(userEmail);
+  
+      if (!roleName) {
+        console.error('No se pudo obtener el rol del usuario');
+        alert('Error: No se pudo obtener el rol del usuario');
+        return;
+      }
+
+      this.userRole = roleName;
+      
+  
+      // Cargar estacionamientos según el rol del usuario
+      let data;
+      if (roleName === 'admin') {
+        data = await this.supaSvc.getParkings();
+      } else if (roleName === 'prestador') {
+        data = await this.supaSvc.getParkingsByUser(userId);
+      } else {
+        console.warn('Rol no reconocido');
+        data = [];
+      }
+  
       this.parkings = data;
       if (!this.parkings.length) {
         console.warn('No se encontraron estacionamientos.');
       }
     } catch (error) {
       console.error('Error cargando estacionamientos:', error);
-    }finally {
+    } finally {
       await loading.dismiss();
     }
-  } 
+  }
   
   disponible(parking: any){
     if(parking.capacidad !== undefined && parking.arrendado !== undefined){
@@ -90,6 +125,31 @@ export class ParkingViewPage implements OnInit {
     });
 
     await alert.present();
-  }  
+  }
+  
+  async scanQRCode() {
+    try {
+      // Solicitar permiso para usar la cámara
+      await BarcodeScanner.checkPermission({ force: true });
+
+      // Iniciar el escaneo
+      await BarcodeScanner.hideBackground(); // Ocultar la vista web para que solo se vea la cámara
+      const result = await BarcodeScanner.startScan(); // Iniciar el escaneo
+
+      // Verificar si se obtuvo un resultado
+      if (result.hasContent) {
+        console.log('Código QR escaneado:', result.content);
+        // Aquí puedes manejar el contenido del código QR escaneado
+      } else {
+        console.warn('No se encontró contenido en el código QR');
+      }
+    } catch (error) {
+      console.error('Error escaneando el código QR:', error);
+    } finally {
+      // Mostrar la vista web nuevamente
+      BarcodeScanner.showBackground();
+      BarcodeScanner.stopScan();
+    }
+  }
 
 }

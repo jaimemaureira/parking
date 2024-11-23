@@ -63,7 +63,7 @@ export class SupabaseService {
   //metodo para iniciar sesion
   signIn(email: string, password: string) {
     return this.supabase.auth.signInWithPassword({ email, password });
-    
+
   }
 
   // Método para cerrar sesión y redirigir a la página de autenticación
@@ -143,10 +143,29 @@ export class SupabaseService {
       console.error(`Error al obtener role_id para ${roleName}:`, error.message);
       return null;
     }
-
     // Devuelve el role_id si se encuentra en la base de datos, o null si no
     return data ? data.role_id : null;
   }
+
+  //metodo para tomar el uuid de la tabla role
+  async getRoleId(roleName: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('roles_usuarios')
+      .select('role_id')
+      .eq('role_name', roleName)
+
+      .single();
+
+    if (error) {
+      console.error(`Error al obtener role_id para ${roleName}:`, error.message);
+      return null;
+    }
+    return data?.role_id || null;
+  } catch(err: any) {
+    console.error('Error inesperado al obtener el role_id:', err);
+    return null;
+  }
+
 
   // Método para obtener el email asociado al rol de un usuario
   async getUserRole(email: string): Promise<string | null> {
@@ -161,27 +180,39 @@ export class SupabaseService {
       return null;
     }
     // Devuelve el rol si se encuentra en la base de datos, o null si no
-  return data ? data.rol : null;
-}
+    return data?.rol || null;
+  }
 
   //Redirigir mediante el rol
-  async redirectByRole(rol: string) {
-    
-    switch (rol) {
+  async redirectByRole(role: string) {
+
+    switch (role) {
       case 'admin':
-          window.location.href = '/main/home'; // Página del administrador
-          break;
+        window.location.href = '/main/home'; // Página del administrador
+        break;
       case 'prestador':
-          window.location.href = '/main/home-prestador'; // Página del prestador
-          break;
+        window.location.href = '/main/home-prestador'; // Página del prestador
+        break;
       case 'usuario':
-          window.location.href = '/main/home-user'; // Página del usuario
-          break;
+        window.location.href = '/main/home-user'; // Página del usuario
+        break;
       default:
-          console.error("Rol no reconocido");
-          window.location.href = '/auth'; // Redirige al login si el rol no es válido
+        console.error("Rol no reconocido");
+        window.location.href = '/auth'; // Redirige al login si el rol no es válido
+    }
   }
-}
+
+  async getCurrentUserEmail(): Promise<string | null> {
+    const { data, error } = await this.supabase.auth.getUser();
+  
+    if (error) {
+      console.error('Error al obtener el usuario actual:', error.message);
+      return null;
+    }
+  
+    // Verifica si el usuario existe y devuelve su email
+    return data.user?.email ?? null;
+  }
 
 
   // =================== MODAL =================== //
@@ -260,6 +291,24 @@ export class SupabaseService {
 
     return data;
   }
+
+  // METODO PARA VER LOS ESTACIONAMIENTOS QUE TIENE UN USUARIO
+  async getParkingsByUser(userId: string): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('parking')
+      .select('*')
+      .eq('created_by', userId);
+
+    if (error) {
+      console.error('Error al obtener los estacionamientos:', error.message);
+      return [];
+    }
+
+    return data;
+  }
+
+
+
 
   // Método para eliminar un estacionamiento
   async deleteParking(parkingId: string): Promise<any> {
