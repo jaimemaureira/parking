@@ -16,7 +16,8 @@ export class SignUpUsuarioPage implements OnInit {
     usuario_id: new FormControl(''),    
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
     apellido : new FormControl('', [Validators.required, Validators.minLength(3)]),
-    rut: new FormControl('', [Validators.required]),
+    direccion: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    rut: new FormControl('', [Validators.required]),    
     telefono: new FormControl('', [Validators.required]),
     email: new FormControl<any>('', [Validators.required, Validators.email]),
     password: new FormControl<any>('', [Validators.required]),
@@ -26,15 +27,13 @@ export class SignUpUsuarioPage implements OnInit {
   });
 
   constructor() { }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  
+  ngOnInit() {
+    
+  }  
 
   async submit() {
     console.log(this.form.value);
-    const { nombre, apellido, rut, telefono, email, password } = this.form.value;
+    const { nombre, apellido, direccion, rut, telefono, email, password } = this.form.value;
     
 
     // Crear loading
@@ -50,11 +49,12 @@ export class SignUpUsuarioPage implements OnInit {
         return;
       }
 
-      // Usar el UUID generado por Supabase para persona_id
+      // Usar el UUID generado por Supabase para usuario_id
       const usuario_id = signUpData.user.id;
-      const additionalData = { usuario_id, nombre, apellido, rut, telefono, email };
+      const role_id = await this.supaSvc.getRole('Usuario')
+      const additionalData = { usuario_id, nombre, apellido, direccion, rut, telefono, email, role_id };
 
-      // Insertar datos adicionales en la tabla 'persona'
+      // Insertar datos adicionales en la tabla 'usuario'
       const { error: insertError } = await this.supaSvc.insertDocument('usuario', additionalData);
       if (insertError) {
         console.error('Error al insertar datos adicionales:', insertError.message);

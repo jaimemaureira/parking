@@ -26,10 +26,11 @@
               <strong>Reservas:</strong>{{reserva(p)}}
               <ion-icon name="ellipse" class="ellipse-outline" style="color: orange"></ion-icon>
               <br>
-              <ion-button *ngIf="userRole === 'user'" mode="ios" expand="block">Reserva</ion-button>
-              <ion-button *ngIf="userRole === 'user'" mode="ios" expand="block">Arrienda</ion-button>
+              <ion-button *ngIf="userRole === 'usuario'" mode="ios" expand="block">Reserva</ion-button>
+              <ion-button *ngIf="userRole === 'usuario'" mode="ios" expand="block">Arrienda</ion-button>
               <ion-button *ngIf="userRole === 'prestador'" (click)="scanQRCode()" mode="ios" expand="block">Arrienda</ion-button>
               <ion-button *ngIf="userRole === 'prestador'" mode="ios" expand="block">Detalle arriendos</ion-button>
+              <ion-button mode="ios" expand="block" (click)="openGoogleMaps(p.direccion)">Como llegar</ion-button>
               <br>
             </ion-card-content>
           </ion-card>

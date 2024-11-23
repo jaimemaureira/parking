@@ -63,7 +63,9 @@ export class ParkingViewPage implements OnInit {
         data = await this.supaSvc.getParkings();
       } else if (roleName === 'prestador') {
         data = await this.supaSvc.getParkingsByUser(userId);
-      } else {
+      }else if (roleName === 'usuario') {
+        data = await this.supaSvc.getParkings();
+      }       else {
         console.warn('Rol no reconocido');
         data = [];
       }
@@ -150,6 +152,11 @@ export class ParkingViewPage implements OnInit {
       BarcodeScanner.showBackground();
       BarcodeScanner.stopScan();
     }
+  }
+
+  openGoogleMaps(address: string) {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
+    window.open(url, '_blank');
   }
 
 }
