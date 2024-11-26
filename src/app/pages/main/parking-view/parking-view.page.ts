@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { BarcodeScanner } from '@capacitor/barcode-scanner';
 
 @Component({
   selector: 'app-parking-view',
@@ -145,6 +145,7 @@ export class ParkingViewPage implements OnInit {
       } else {
         console.warn('No se encontró contenido en el código QR');
       }
+      
     } catch (error) {
       console.error('Error escaneando el código QR:', error);
     } finally {
