@@ -1,4 +1,4 @@
-<app-header backButton="home" title="Agrega un vehiculo"></app-header>
+<app-header backButton="main/home" title="Agrega un vehiculo"></app-header>
 
 <ion-content>
 
@@ -7,7 +7,7 @@
     <h4>Ingresa los datos de tu vehiculo</h4>
     <img src="https://tekcvtjzfewjaqgkatkh.supabase.co/storage/v1/object/sign/logo/car-stainless-logo-png.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvL2Nhci1zdGFpbmxlc3MtbG9nby1wbmcud2VicCIsImlhdCI6MTczMDIyODc3NCwiZXhwIjozMTU1Mjk4NjkyNzc0fQ.e6lf_sN-Y7g989IelUnmUdMI4I5myxAW5kH4sNsyu44&t=2024-10-29T19%3A06%3A15.676Z" alt="">
 
-    <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()">
+    <form [formGroup]="form" class="auth-form">
       <app-custom-input
       autocomplete="patente"
       [control]="form.controls.patente"
@@ -37,7 +37,7 @@
       autocomplete="tipo_vehiculo"
       [control]="form.controls.tipo_vehiculo"
       type="text"
-      label="Tipo"></app-custom-input>
+      label="tipo vehiculo"></app-custom-input>
 
     <ion-button type="submit" color="primary" mode="ios" (click)="submit()">
       Guardar

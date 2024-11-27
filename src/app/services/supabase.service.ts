@@ -191,10 +191,10 @@ export class SupabaseService {
         window.location.href = '/main/home'; // Página del administrador
         break;
       case 'Prestador':
-        window.location.href = '/main/home-prestador'; // Página del prestador
+        window.location.href = '/main/home'; // Página del prestador
         break;
       case 'Usuario':
-        window.location.href = '/main/home-user'; // Página del usuario
+        window.location.href = '/main/home'; // Página del usuario
         break;
       default:
         console.error("Rol no reconocido");
@@ -244,7 +244,7 @@ export class SupabaseService {
   // }
 
 
-  // Subir imágenes al storage de Supabase
+  // Subir imágenes al storage de Supabase a la caperta 'imagen-parking'
   async uploadFile(file: File, filePath: string): Promise<{ data: any; error: any }> {
     const { error } = await this.supabase.storage.from('imagen-parking').upload(filePath, file);
 
@@ -254,6 +254,19 @@ export class SupabaseService {
     }
 
     const { data: publicUrlData } = this.supabase.storage.from('imagen-parking').getPublicUrl(filePath);
+    return { data: { publicURL: publicUrlData.publicUrl }, error: null };
+  }
+
+  // Subir imágenes al storage de Supabase a la caperta 'imagen-parking'
+  async uploadFileAvatar(file: File, filePath: string): Promise<{ data: any; error: any }> {
+    const { error } = await this.supabase.storage.from('avatares').upload(filePath, file);
+
+    if (error) {
+      console.error('Error al subir archivo:', error.message);
+      return { data: null, error };
+    }
+
+    const { data: publicUrlData } = this.supabase.storage.from('avatares').getPublicUrl(filePath);
     return { data: { publicURL: publicUrlData.publicUrl }, error: null };
   }
 
@@ -375,17 +388,24 @@ export class SupabaseService {
     }
   }
 
-  // Obtener las coordenadas de la dirección
-  // const location = await this.geocodingSvc.geocodeAddress(direccion);
-  // if (location) {
-  //   this.form.controls.latitud.setValue(location.lat);
-  //   this.form.controls.longitud.setValue(location.lng);
-  // } else {
-  //   throw new Error('No se pudieron obtener las coordenadas de la dirección proporcionada');
-  // }
+  //metodo para obtener vehiculo por usuario
+  async getVehiculoByUserId(userId: string): Promise<any> {
+    console.log('Obteniendo datos del vehículo para userId:', userId);
+    const { data, error } = await this.supabase
+      .from('vehiculo')
+      .select('*')
+      .eq('user_id', userId); // Filtrar por user_id
+  
+    if (error) {
+      console.error('Error al obtener los datos del vehículo:', error.message);
+      return null;
+    }
+  
+    console.log('Datos del vehículo obtenidos:', data);
+    return data;
+  }
 
-
-
+  
 }
 
 

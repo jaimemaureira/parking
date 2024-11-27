@@ -9,12 +9,27 @@ import { ArriendoPage } from '../arriendo/arriendo.page';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit {  
 
   supaSvc = inject(SupabaseService);
+  userRole: string = ''; // Rol del usuario
 
-  ngOnInit() {
+  
+
+  ngOnInit() { 
+    this.initializeUserRole();
   }
+
+  async initializeUserRole() {
+    const userId = await this.supaSvc.getUserId();
+    if (userId) {
+      const role = await this.supaSvc.getUserRoleById(userId);
+      if (role) {
+        this.userRole = role;
+      }
+    }
+  }
+  
   
   // Método para cerrar sesión
   async signOut() {
@@ -38,5 +53,7 @@ export class HomePage implements OnInit {
       cssClass: 'add-update-modal',
     })
   }
+
+  
 
 }

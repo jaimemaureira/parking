@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'vehiculo',
     loadChildren: () => import('./pages/main/vehiculo/vehiculo.module').then(m => m.VehiculoPageModule),canActivate: [AuthGuard]
   },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/main//profile/profile.module').then( m => m.ProfilePageModule),canActivate: [AuthGuard]
+  },
 
   
 

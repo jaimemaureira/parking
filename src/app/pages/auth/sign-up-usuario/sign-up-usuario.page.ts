@@ -13,7 +13,7 @@ export class SignUpUsuarioPage implements OnInit {
   
 
   form = new FormGroup({
-    usuario_id: new FormControl(''),    
+       
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
     apellido : new FormControl('', [Validators.required, Validators.minLength(3)]),
     direccion: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -50,9 +50,9 @@ export class SignUpUsuarioPage implements OnInit {
       }
 
       // Usar el UUID generado por Supabase para usuario_id
-      const usuario_id = signUpData.user.id;
+      
       const role_id = await this.supaSvc.getRole('Usuario')
-      const additionalData = { usuario_id, nombre, apellido, direccion, rut, telefono, email, role_id };
+      const additionalData = { nombre, apellido, direccion, rut, telefono, email, role_id };
 
       // Insertar datos adicionales en la tabla 'usuario'
       const { error: insertError } = await this.supaSvc.insertDocument('usuario', additionalData);
