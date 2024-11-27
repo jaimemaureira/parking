@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
-import { BarcodeScanner } from '@capacitor/barcode-scanner';
+
 
 @Component({
   selector: 'app-parking-view',
@@ -59,11 +59,11 @@ export class ParkingViewPage implements OnInit {
   
       // Cargar estacionamientos según el rol del usuario
       let data;
-      if (roleName === 'admin') {
+      if (roleName === 'Administrador') {
         data = await this.supaSvc.getParkings();
-      } else if (roleName === 'prestador') {
+      } else if (roleName === 'Prestador') {
         data = await this.supaSvc.getParkingsByUser(userId);
-      }else if (roleName === 'usuario') {
+      }else if (roleName === 'Usuario') {
         data = await this.supaSvc.getParkings();
       }       else {
         console.warn('Rol no reconocido');
@@ -129,31 +129,7 @@ export class ParkingViewPage implements OnInit {
     await alert.present();
   }
   
-  async scanQRCode() {
-    try {
-      // Solicitar permiso para usar la cámara
-      await BarcodeScanner.checkPermission({ force: true });
-
-      // Iniciar el escaneo
-      await BarcodeScanner.hideBackground(); // Ocultar la vista web para que solo se vea la cámara
-      const result = await BarcodeScanner.startScan(); // Iniciar el escaneo
-
-      // Verificar si se obtuvo un resultado
-      if (result.hasContent) {
-        console.log('Código QR escaneado:', result.content);
-        // Aquí puedes manejar el contenido del código QR escaneado
-      } else {
-        console.warn('No se encontró contenido en el código QR');
-      }
-      
-    } catch (error) {
-      console.error('Error escaneando el código QR:', error);
-    } finally {
-      // Mostrar la vista web nuevamente
-      BarcodeScanner.showBackground();
-      BarcodeScanner.stopScan();
-    }
-  }
+  
 
   openGoogleMaps(address: string) {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;

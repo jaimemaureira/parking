@@ -170,8 +170,8 @@ export class SupabaseService {
   // Método para obtener el email asociado al rol de un usuario
   async getUserRole(email: string): Promise<string | null> {
     const { data, error } = await this.supabase
-      .from('roles_usuarios')
-      .select('rol')
+      .from('datos_generales_usuarios')
+      .select('nombre_role')
       .eq('email', email)
       .single();
 
@@ -180,20 +180,20 @@ export class SupabaseService {
       return null;
     }
     // Devuelve el rol si se encuentra en la base de datos, o null si no
-    return data?.rol || null;
+    return data?.nombre_role || null;
   }
 
   //Redirigir mediante el rol
   async redirectByRole(role: string) {
 
     switch (role) {
-      case 'admin':
+      case 'Administrador':
         window.location.href = '/main/home'; // Página del administrador
         break;
-      case 'prestador':
+      case 'Prestador':
         window.location.href = '/main/home-prestador'; // Página del prestador
         break;
-      case 'usuario':
+      case 'Usuario':
         window.location.href = '/main/home-user'; // Página del usuario
         break;
       default:
