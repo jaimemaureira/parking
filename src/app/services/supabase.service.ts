@@ -331,6 +331,50 @@ export class SupabaseService {
     return { data: vehiculoData, error };
   }
 
+  //metodo para obtener ususario desde la vista
+  async getUserNameById(userId: string): Promise<string | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('datos_generales_usuarios')
+        .select('Nombre')
+        .eq('UsuarioID', userId)
+        .single();
+  
+      if (error) {
+        console.error('Error al obtener el nombre del usuario:', error.message);
+        return null;
+      }
+  
+      return data?.Nombre || null;
+    } catch (err) {
+      console.error('Error inesperado al obtener el nombre del usuario:', err);
+      return null;
+    }
+  }
+
+  //capturar el rol de ususario desde la vista
+  async getUserRoleById(userId: string): Promise<string | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('datos_generales_usuarios')
+        .select('nombre_role')
+        .eq('UsuarioID', userId)
+        .single();
+        console.log(data)
+  
+      if (error) {
+        console.error('Error al obtener el rol del usuario:', error.message);
+        return null;
+      }
+  
+      return data?.nombre_role || null;
+      
+    } catch (err) {
+      console.error('Error inesperado al obtener el rol del usuario:', err);
+      return null;
+    }
+  }
+
   // Obtener las coordenadas de la dirección
   // const location = await this.geocodingSvc.geocodeAddress(direccion);
   // if (location) {
