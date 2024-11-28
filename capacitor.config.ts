@@ -6,4 +6,6 @@ const config: CapacitorConfig = {
   webDir: 'www'
 };
 
+
+
 export default config;
