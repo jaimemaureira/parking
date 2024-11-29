@@ -171,7 +171,7 @@ export class SupabaseService {
   async getUserRole(email: string): Promise<string | null> {
     const { data, error } = await this.supabase
       .from('datos_generales_usuarios')
-      .select('nombre_role')
+      .select('UsuarioID')
       .eq('email', email)
       .single();
 
@@ -180,20 +180,20 @@ export class SupabaseService {
       return null;
     }
     // Devuelve el rol si se encuentra en la base de datos, o null si no
-    return data?.nombre_role || null;
+    return data?.UsuarioID || null;
   }
 
   //Redirigir mediante el rol
   async redirectByRole(role: string) {
 
     switch (role) {
-      case 'Administrador':
+      case 'admin':
         window.location.href = '/main/home'; // Página del administrador
         break;
-      case 'Prestador':
+      case 'prestador':
         window.location.href = '/main/home'; // Página del prestador
         break;
-      case 'Usuario':
+      case 'usuario':
         window.location.href = '/main/home'; // Página del usuario
         break;
       default:
@@ -206,6 +206,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase.auth.getUser();
   
     if (error) {
+      console.info(data)
       console.error('Error al obtener el usuario actual:', error.message);
       return null;
     }

@@ -54,10 +54,18 @@ export class AuthPage implements OnInit {
       // Mostrar mensaje de inicio de sesión exitoso
       console.log('Inicio de sesión exitoso:', data);
       alert('Inicio de sesión exitoso');
+
+      // Obtener el ID del usuario autenticado
+      const userId = data.user.id;
+      if (!userId) {
+        console.error('Error: No se pudo obtener el ID del usuario.');
+        alert('Error: No se pudo obtener el ID del usuario.');
+        return;
+      }
       
 
       // Obtener el rol del usuario
-      const role = await this.supaSvc.getUserRole(email);
+      const role = await this.supaSvc.getUserRoleById(userId);
       if (!role) {
         console.error('Error: No se pudo obtener el rol del usuario.');
         alert('Error: No se pudo obtener el rol del usuario.');
