@@ -57,6 +57,9 @@ export class AuthPage implements OnInit {
 
       // Obtener el ID del usuario autenticado
       const userId = data.user.id;
+      console.log('ID del usuario:', userId); 
+      debugger;
+
       if (!userId) {
         console.error('Error: No se pudo obtener el ID del usuario.');
         alert('Error: No se pudo obtener el ID del usuario.');
@@ -66,13 +69,13 @@ export class AuthPage implements OnInit {
 
       // Obtener el rol del usuario
       const role = await this.supaSvc.getUserRoleById(userId);
+      console.log('Rol del usuario auth.page.ts :', role);
+      debugger;
       if (!role) {
         console.error('Error: No se pudo obtener el rol del usuario.');
         alert('Error: No se pudo obtener el rol del usuario.');
         return;
-      }
-
-      
+      }      
 
       // Redirigir a la página principal segun rol
       await this.supaSvc.redirectByRole(role);

@@ -38,15 +38,20 @@ export class ParkingViewPage implements OnInit {
       const user = await this.supaSvc.getUser();
       const userId = user?.id;
       const userEmail = user?.email;
+      console.log('ID del usuario:', userId);
+      console.log('Email del usuario:', userEmail);
   
-      if (!userId || !userEmail) {
+      if (!userId || !userEmail) {        
         console.error('No se pudo obtener el ID o el email del usuario');
         alert('Error: No se pudo obtener el ID o el email del usuario');
         return;
       }
+
+      const user_id = user.id
   
       // Obtener el rol del usuario autenticado
-      const roleName = await this.supaSvc.getUserRole(userEmail);
+      const roleName = await this.supaSvc.getUserRoleById(userId);
+      console.log('Rol del usuario:', roleName);
   
       if (!roleName) {
         console.error('No se pudo obtener el rol del usuario');
