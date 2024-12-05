@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SupabaseService } from 'src/app/services/supabase.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
-import { ParkingViewPage } from '../parking-view/parking-view.page';
 import { ArriendoPage } from '../arriendo/arriendo.page';
 
 @Component({

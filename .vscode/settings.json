@@ -4,8 +4,8 @@
     "@ionic/angular/standalone"
   ],
   "sonarlint.connectedMode.project": {
-    "connectionId": "http-192-168-1-9-9000",
-    "projectKey": "sqp_30da8b0ff5a4c35dc7f6e2337c05b47943b538fb"
+    "connectionId": "jaimemaureira",
+    "projectKey": "jaimemaureira_parking"
   },
   "java.configuration.updateBuildConfiguration": "automatic"
 }

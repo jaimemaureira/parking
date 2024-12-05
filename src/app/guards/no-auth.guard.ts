@@ -7,7 +7,7 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 })
 export class NoAuthGuard implements CanActivate {
 
-  constructor(private supaSvc: SupabaseService, private router: Router) {}
+  constructor(private readonly supaSvc: SupabaseService, private readonly router: Router) {}
 
   async canActivate(): Promise<boolean> {
     const user = await this.supaSvc.getUser();

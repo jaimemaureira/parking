@@ -21,7 +21,7 @@
     <!-- ======== nuevo estacionamiento ========= -->
 
     <ion-button *ngIf="userRole === 'Administrador' || userRole === 'Prestador'" vertical="3" color="primary" mode="ios"
-      (click)="addUpdateProduct()" class="add-circle-outline">
+      (click)="addUpdateProduct()" (keydown.enter)="addUpdateProduct()" class="add-circle-outline">
       <ion-icon name="add-circle-outline"></ion-icon>&nbsp;
       Agregar estacionamientos
     </ion-button>
@@ -54,14 +54,14 @@
 
 
     <!-- ======== gestionar ususarios ========= -->
-    <ion-button *ngIf="userRole === 'Administrador'" vertical color="primary" mode="ios" (click)="addUpdateProduct()"
+    <ion-button *ngIf="userRole === 'Administrador'" vertical color="primary" mode="ios" (click)="addUpdateProduct()" (keydown.enter)="addUpdateProduct()"
       class="add-circle-outline">
       <ion-icon name="accessibility-outline"></ion-icon>&nbsp;
       Gestor de usuarios
     </ion-button>
 
     <!-- ======== gestionar prestadores ========= -->
-    <ion-button *ngIf="userRole === 'Administrador'" vertical color="primary" mode="ios" (click)="addUpdateProduct()"
+    <ion-button *ngIf="userRole === 'Administrador'" vertical color="primary" mode="ios" (click)="addUpdateProduct()" (keydown.enter)="addUpdateProduct()"
       class="add-circle-outline">
       <ion-icon name="accessibility-outline"></ion-icon>&nbsp;
       Gestor de prestadores
@@ -69,7 +69,7 @@
 
     
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="signOut()">
+      <ion-fab-button (click)="signOut()" (keydown.enter)="signOut()">
         <ion-icon name="exit-outline"></ion-icon>&nbsp;
       </ion-fab-button>
     </ion-fab>

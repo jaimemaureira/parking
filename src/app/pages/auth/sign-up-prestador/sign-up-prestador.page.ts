@@ -27,9 +27,7 @@ export class SignUpPrestadorPage implements OnInit {
   });
 
   constructor() { }
-
-  ngOnInit() {
-  }
+  
 
   async submit() {
     console.log(this.form.value);

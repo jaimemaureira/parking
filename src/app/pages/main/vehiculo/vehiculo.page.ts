@@ -23,12 +23,11 @@ export class VehiculoPage implements OnInit {
     
   });
 
-  constructor(private supaSvc: SupabaseService,) {
+  constructor(private readonly supaSvc: SupabaseService,) {
     
    }
 
-  ngOnInit() {
-  }
+ 
 
   
 

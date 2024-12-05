@@ -9,8 +9,7 @@ export class ArriendoPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  
 
 }
 

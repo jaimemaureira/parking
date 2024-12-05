@@ -8,7 +8,7 @@
       <ion-item-sliding class="menu-home" *ngFor="let p of parkings">
         <ion-item>
           <ion-card>
-            <img [src]="p.imagen" />
+            <img [src]="p.imagen" alt="" />
             <ion-card-header>
               <ion-card-title>{{p.nombre_parking}}</ion-card-title>              
             </ion-card-header>
@@ -29,7 +29,7 @@
               <ion-button *ngIf="userRole === 'usuario'" mode="ios" expand="block">Arrienda</ion-button>
               <ion-button *ngIf="userRole === 'prestador'"  mode="ios" expand="block">Arrienda</ion-button>
               <ion-button *ngIf="userRole === 'prestador'" mode="ios" expand="block">Detalle arriendos</ion-button>
-              <ion-button mode="ios" expand="block" (click)="openGoogleMaps(p.direccion)">Como llegar</ion-button>
+              <ion-button mode="ios" expand="block" (click)="openGoogleMaps(p.direccion)" (keydown.enter)="openGoogleMaps(p.direccion)">Como llegar</ion-button>
               <br>
             </ion-card-content>
           </ion-card>
@@ -41,7 +41,7 @@
               Modificar
             </ion-item-option >
 
-            <ion-item-option *ngIf="userRole === 'admin'" (click)="deleteParking(p.parking_id)" class="option-btn" color="danger" style="margin-top: 10px; margin-bottom: 10px" expandable>
+            <ion-item-option *ngIf="userRole === 'admin'" (click)="deleteParking(p.parking_id)" (keydown.enter)="deleteParking(p.parking_id)" class="option-btn" color="danger" style="margin-top: 10px; margin-bottom: 10px" expandable>
               <ion-icon name="trash-outline"></ion-icon>
               Eliminar
             </ion-item-option>

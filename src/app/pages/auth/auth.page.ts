@@ -22,9 +22,7 @@ export class AuthPage implements OnInit {
   });
 
   constructor() { }
-
-  ngOnInit() {
-  }
+ 
 
   //metodo para iniciar sesion
   async submit() {
@@ -34,11 +32,6 @@ export class AuthPage implements OnInit {
     // Obtener email y password
     const { email, password } = this.form.value;
 
-    // Crear loading
-    // const loading = await this.loadingCtrl.create({
-    //   message: 'Por favor espere...',
-    //   spinner: 'crescent',
-    // });
 
     // Iniciar sesión
     try {

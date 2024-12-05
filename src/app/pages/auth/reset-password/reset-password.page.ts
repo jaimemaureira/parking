@@ -14,10 +14,10 @@ export class ResetPasswordPage implements OnInit {
   token: string | null = null;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private supaSvc: SupabaseService,
-    private loadingCtrl: LoadingController
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly supaSvc: SupabaseService,
+    private readonly loadingCtrl: LoadingController
   ) {
     this.form = new FormGroup({
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
