@@ -49,8 +49,8 @@
         </ion-avatar>
 
         <div class="button-container">
-          <ion-button style="width: 220px;" mode="ios" (click)="takeImage()">Elije un avatar</ion-button>
-          <ion-button mode="ios" (click)="submit()" class="submit" type="submit"
+          <ion-button style="width: 220px;" mode="ios" (click)="takeImage()" (keydown.enter)="takeImage()">Elije un avatar</ion-button>
+          <ion-button mode="ios" (click)="submit()" (keydown.enter)="submit()" class="submit" type="submit"
             [disabled]="form.invalid">
             Guardar
             <ion-icon slot="end"></ion-icon>
@@ -60,7 +60,7 @@
       </ion-item>
       
       <ion-item-group>
-        <ion-item-divider color="light" (click)="toggleVehiculoDetails()">
+        <ion-item-divider color="light" (click)="toggleVehiculoDetails()" (keydown.enter)="toggleVehiculoDetails()">
           <ion-label>Vehiculos asociados</ion-label>
           <ion-icon [name]="vehiculoDetailsVisible ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
         </ion-item-divider>

@@ -6,7 +6,7 @@
 
     <!-- Si existe una imagen -->
     <ion-avatar *ngIf="form.value.imagen">
-      <img [src]="form.value.imagen" />
+      <img [src]="form.value.imagen" alt="" />
     </ion-avatar>
 
     <!-- SI NO EXISTE UNA IMAGEN -->
@@ -16,7 +16,7 @@
 
 
     <!-- TOMAR FOTO (levanta un pront) -->
-    <ion-button mode="ios" (click)="takeImage()" size="small" shape="round">
+    <ion-button mode="ios" (click)="takeImage()" (keydown.enter)="takeImage()" size="small" shape="round">
       Agregar fotografia estacionamiento
       <ion-icon slot="end" name="add-circle-outline"></ion-icon>
     </ion-button>

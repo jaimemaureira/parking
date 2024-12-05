@@ -39,7 +39,7 @@
       type="text"
       label="tipo vehiculo"></app-custom-input>
 
-    <ion-button type="submit" color="primary" mode="ios" (click)="submit()">
+    <ion-button type="submit" color="primary" mode="ios" (click)="submit()"  (keydown.enter)="submit()">
       Guardar
     </ion-button>
 
