@@ -1,0 +1,54 @@
+<app-header backButton="/main/home" title=" Estacionamientos"></app-header>
+
+<ion-content>
+
+  <div class="menu-home">
+    <app-logo></app-logo>
+    <ion-list>
+      <ion-item-sliding class="menu-home" *ngFor="let p of parkings">
+        <ion-item>
+          <ion-card>
+            <img [src]="p.imagen" alt="" />
+            <ion-card-header>
+              <ion-card-title>{{p.nombre_parking}}</ion-card-title>              
+            </ion-card-header>
+            <ion-card-content>
+              <strong>Direccion:</strong>{{p.direccion}} 
+              <br> 
+              <strong>valor:</strong> ${{p.valor }} por minuto
+              <br>
+              <strong>capacidad:</strong>{{p.capacidad}}
+              <br>
+              <strong>Disponible:</strong>{{disponible(p)}}
+              <ion-icon name="ellipse" class="ellipse-outline" style="color: rgb(7, 245, 46);"></ion-icon>
+              <br>
+              <strong>Reservas:</strong>{{reserva(p)}}
+              <ion-icon name="ellipse" class="ellipse-outline" style="color: orange"></ion-icon>
+              <br>
+              <ion-button *ngIf="userRole === 'usuario'" mode="ios" expand="block">Reserva</ion-button>
+              <ion-button *ngIf="userRole === 'usuario'" mode="ios" expand="block">Arrienda</ion-button>
+              <ion-button *ngIf="userRole === 'prestador'"  mode="ios" expand="block">Arrienda</ion-button>
+              <ion-button *ngIf="userRole === 'prestador'" mode="ios" expand="block">Detalle arriendos</ion-button>
+              <ion-button mode="ios" expand="block" (click)="openGoogleMaps(p.direccion)" (keydown.enter)="openGoogleMaps(p.direccion)">Como llegar</ion-button>
+              <br>
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+
+          <ion-item-options >
+            <ion-item-option *ngIf="userRole === 'prestador'|| userRole === 'admin'" class="option-btn">
+              <ion-icon name="create-outline"></ion-icon>
+              Modificar
+            </ion-item-option >
+
+            <ion-item-option *ngIf="userRole === 'admin'" (click)="deleteParking(p.parking_id)" (keydown.enter)="deleteParking(p.parking_id)" class="option-btn" color="danger" style="margin-top: 10px; margin-bottom: 10px" expandable>
+              <ion-icon name="trash-outline"></ion-icon>
+              Eliminar
+            </ion-item-option>
+          </ion-item-options>
+        
+      </ion-item-sliding>
+    </ion-list>
+
+  </div>
+</ion-content>

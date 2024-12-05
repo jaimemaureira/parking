@@ -1,0 +1,13 @@
+<app-custom-input
+  [control]="control"
+  [type]="type"
+  [label]="label"
+  [icon]="icon"
+  [autocomplete]="autocomplete">
+</app-custom-input>
+
+<div class="validators" *ngIf="control?.errors && control?.touched">
+  <div *ngIf="control.errors?.['required']">{{ label }} es obligatorio</div>
+  <div *ngIf="control.errors?.['minlength']">{{ label }} debe tener mínimo {{ minlength }} caracteres</div>
+  <div *ngIf="control.errors?.['email'] && type === 'email'">Ingrese un correo válido</div>
+</div>

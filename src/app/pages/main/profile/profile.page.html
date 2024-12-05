@@ -1,0 +1,88 @@
+<app-header backButton="main/home" title="Perfil"></app-header>
+
+<ion-content>
+
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title>Datos Personales</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label style="color: orange;" position="floating">Nombre de
+          usuario</ion-label>
+        <ion-input type="text" style="color: rgb(45, 91, 240)"
+          [(ngModel)]="userName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label style="color: orange;" position="floating">Correo
+          electronico</ion-label>
+        <ion-input type="email" style="color: rgb(45, 91, 240)"
+          [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label style="color: orange;" position="floating">Rol</ion-label>
+        <ion-input type="text" style="color: rgb(45, 91, 240)"
+          [(ngModel)]="rol"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!--  -->
+
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title>Informacion general</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label style="color: orange;" position="floating">Agrega un
+          avatar</ion-label><br>
+
+        <!-- SI NO EXISTE UNA IMAGEN -->
+        <div class="icon-container" *ngIf="!form.value.imagen">
+          <ion-icon class="image-icon" name="image-outline"></ion-icon>
+        </div>
+        <!-- Si existe una imagen -->
+        <ion-avatar *ngIf="form.value.imagen">
+          <img [src]="form.value.imagen" />
+
+        </ion-avatar>
+
+        <div class="button-container">
+          <ion-button style="width: 220px;" mode="ios" (click)="takeImage()" (keydown.enter)="takeImage()">Elije un avatar</ion-button>
+          <ion-button mode="ios" (click)="submit()" (keydown.enter)="submit()" class="submit" type="submit"
+            [disabled]="form.invalid">
+            Guardar
+            <ion-icon slot="end"></ion-icon>
+          </ion-button>
+        </div>
+        <br>
+      </ion-item>
+      
+      <ion-item-group>
+        <ion-item-divider color="light" (click)="toggleVehiculoDetails()" (keydown.enter)="toggleVehiculoDetails()">
+          <ion-label>Vehiculos asociados</ion-label>
+          <ion-icon [name]="vehiculoDetailsVisible ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+        </ion-item-divider>
+        <div *ngIf="vehiculoDetailsVisible">
+          <ion-item>
+            <ion-label style="color: orange;" position="floating">Marca</ion-label>
+            <ion-input type="text" style="color: rgb(45, 91, 240)" [(ngModel)]="vehiculo.marca"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label style="color: orange;" position="floating">Modelo</ion-label>
+            <ion-input type="text" style="color: rgb(45, 91, 240)" [(ngModel)]="vehiculo.modelo"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label style="color: orange;" position="floating">Tipo de Vehículo</ion-label>
+            <ion-input type="text" style="color: rgb(45, 91, 240)" [(ngModel)]="vehiculo.tipo_vehiculo"></ion-input>
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item>
+        <ion-label style="color: orange;" position="floating">Ultimos Arreindos</ion-label>
+        <ion-input ></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

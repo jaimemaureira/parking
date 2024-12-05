@@ -1,0 +1,51 @@
+<app-header backButton="main/home" title="Agrega un vehiculo"></app-header>
+
+<ion-content>
+
+  <div class="menu-home">
+
+    <h4>Ingresa los datos de tu vehiculo</h4>
+    <img src="https://tekcvtjzfewjaqgkatkh.supabase.co/storage/v1/object/sign/logo/car-stainless-logo-png.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvL2Nhci1zdGFpbmxlc3MtbG9nby1wbmcud2VicCIsImlhdCI6MTczMDIyODc3NCwiZXhwIjozMTU1Mjk4NjkyNzc0fQ.e6lf_sN-Y7g989IelUnmUdMI4I5myxAW5kH4sNsyu44&t=2024-10-29T19%3A06%3A15.676Z" alt="">
+
+    <form [formGroup]="form" class="auth-form">
+      <app-custom-input
+      autocomplete="patente"
+      [control]="form.controls.patente"
+      type="text"
+      label="Patente"
+      ></app-custom-input>
+
+    <app-custom-input
+      autocomplete="marca"
+      [control]="form.controls.marca"
+      type="text"
+      label="Marca"></app-custom-input>
+
+    <app-custom-input
+      autocomplete="modelo"
+      [control]="form.controls.modelo"
+      type="text"
+      label="Modelo"></app-custom-input>
+
+    <app-custom-input
+      autocomplete="color"
+      [control]="form.controls.color"
+      type="text"
+      label="Color"></app-custom-input>
+
+    <app-custom-input
+      autocomplete="tipo_vehiculo"
+      [control]="form.controls.tipo_vehiculo"
+      type="text"
+      label="tipo vehiculo"></app-custom-input>
+
+    <ion-button type="submit" color="primary" mode="ios" (click)="submit()"  (keydown.enter)="submit()">
+      Guardar
+    </ion-button>
+
+    </form>
+    
+
+  </div>
+
+</ion-content>

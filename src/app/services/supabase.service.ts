@@ -1,30 +1,415 @@
-import { Inject, Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { inject, Injectable } from '@angular/core';
+import { createClient, SupabaseClient, UserAttributes, UserResponse } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
+import { LoadingController, ModalController, ModalOptions } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupabaseService {
-  supabase = Inject(SupabaseClient);
+  supabase: SupabaseClient
+  loadingCtrl = inject(LoadingController);
+  router = inject(Router);
+  modalCtrl = inject(ModalController)
+
+
 
 
   constructor() {
-    this.supabase = createClient(environment.supaBaseConfig.supaApiUrl, environment.supaBaseConfig.supaApiKey);
-   }
+    this.supabase = createClient(environment.supaApiUrl, environment.supaApiKey);
+  }
 
-   //metodo para el registro de usuarios
-   async signUp(userData: any) {
+
+  //metodo para tomar fotos
+  async takePicture(promptLabelHeader: string) {
+    return await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.DataUrl,// Especifica que el resultado debe ser una URL de datos
+      source: CameraSource.Prompt,// Especifica desde donde se adquiere la foto
+      promptLabelHeader,
+      promptLabelPhoto: 'Selecciona una imagen',
+      promptLabelPicture: 'Toma una foto'
+    });
+  };
+
+  // Método para registrar un usuario
+  async signUp(email: string, password: string): Promise<{ data: any; error: any }> {
     const { data, error } = await this.supabase.auth.signUp({
-      email: userData.email,
-      password: userData.password,
+      email, password
     });
 
+    return { data, error };
+  }
+
+  // Método para insertar un documento en una tabla de forma dinámica
+  async insertDocument(table: string, data: any): Promise<{ data: any; error: any }> {
+    const { data: insertedData, error } = await this.supabase
+      .from(table)
+      .insert([data]);
+
     if (error) {
-      throw error;
+      alert('Error, No se pudo guardar el perfil');
+    }
+
+    return { data: insertedData, error };
+  }
+
+
+  //metodo para iniciar sesion
+  signIn(email: string, password: string) {
+    return this.supabase.auth.signInWithPassword({ email, password });
+
+  }
+
+  // Método para cerrar sesión y redirigir a la página de autenticación
+  async signOut() {
+    const { error } = await this.supabase.auth.signOut();
+    if (!error) {
+      // Redirigir al usuario a la página de inicio de sesión
+      this.router.navigate(['/auth']);
+    } else {
+      console.error('Error al cerrar sesión:', error.message);
+    }
+  }
+
+  //loading
+  async loading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Por favor espere...',
+      spinner: 'crescent'
+    });
+    return loading;
+
+  }
+  //enrutamiento de paginas
+
+  routerlink(url: string) {
+    this.router.navigate([url]);
+  }
+
+  //guardar en local storage
+  saveInLocalStorage(key: string, value: any) {
+    return localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  //obtener desde el local storage
+  getFromLocalStorage(key: string): any {
+    const item = localStorage.getItem(key);
+    if (item) {
+      return JSON.parse(item);
+    }
+    return null;
+  }
+
+  //enviar email de restablecimiento de contraseña
+
+  async sendPasswordResetEmail(email: string): Promise<{ data: any; error: any }> {
+    const { data, error } = await this.supabase.auth.resetPasswordForEmail(email);
+    return { data, error };
+  }
+
+  // Método para actualizar la contraseña
+  async updatePassword(_token: string, password: string): Promise<{ data: any; error: any }> {
+    const { data, error } = await this.supabase.auth.updateUser({ password } as UserAttributes);
+    return { data, error };
+  }
+
+  // Método para obtener el usuario autenticado
+  async getUser() {
+    const { data: { user } } = await this.supabase.auth.getUser();
+    return user;
+  }
+
+  // Obtener el usuario a través de la sesión
+  async getUserId(): Promise<string | null> {
+    const { data: { session } } = await this.supabase.auth.getSession();
+    return session ? session.user.id : null;
+  }
+
+  // Método para obtener role_id
+  async getRole(roleName: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('role')
+      .select('role_id')
+      .eq('nombre_role', roleName)
+      .single();
+
+    if (error) {
+      console.error(`Error al obtener role_id para ${roleName}:`, error.message);
+      return null;
+    }
+    // Devuelve el role_id si se encuentra en la base de datos, o null si no
+    return data ? data.role_id : null;
+  }
+
+  //metodo para tomar el uuid de la tabla role
+  async getRoleId(roleName: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('roles_usuarios')
+      .select('role_id')
+      .eq('role_name', roleName)
+
+      .single();
+
+    if (error) {
+      console.error(`Error al obtener role_id para ${roleName}:`, error.message);
+      return null;
+    }
+    return data?.role_id || null;
+  } catch(err: any) {
+    console.error('Error inesperado al obtener el role_id:', err);
+    return null;
+  }
+
+
+  // Método para obtener el email asociado al rol de un usuario
+  async getUserRole(email: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('datos_generales_usuarios')
+      .select('UsuarioID')
+      .eq('email', email)
+      .single();
+
+    if (error) {
+      console.error(`Error al obtener rol para ${email}:`, error.message);
+      return null;
+    }
+    // Devuelve el rol si se encuentra en la base de datos, o null si no
+    return data?.UsuarioID || null;
+  }
+
+  //Redirigir mediante el rol
+  async redirectByRole(role: string) {
+
+    switch (role) {
+      case 'admin':
+        window.location.href = '/main/home'; // Página del administrador
+        break;
+      case 'prestador':
+        window.location.href = '/main/home'; // Página del prestador
+        break;
+      case 'usuario':
+        window.location.href = '/main/home'; // Página del usuario
+        break;
+      default:
+        console.error("Rol no reconocido");
+        window.location.href = '/auth'; // Redirige al login si el rol no es válido
+    }
+  }
+
+  async getCurrentUserEmail(): Promise<string | null> {
+    const { data, error } = await this.supabase.auth.getUser();
+  
+    if (error) {
+      console.info(data)
+      console.error('Error al obtener el usuario actual:', error.message);
+      return null;
+    }
+  
+    // Verifica si el usuario existe y devuelve su email
+    return data.user?.email ?? null;
+  }
+
+
+  // =================== MODAL =================== //
+
+  async presentModal(opts: ModalOptions) {
+    const modal = await this.modalCtrl.create(opts);
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) return data;
+
+  }
+  dismissModal(data?: any) {
+    return this.modalCtrl.dismiss(data);
+
+  }
+
+
+  // =================== BASE DE DATOS =================== //
+
+  // Método para insertar un documento en una tabla
+  // async insertDocument(_table: string, data: any): Promise<{ data: any; error: any }> {
+  //   const { data: insertedData, error } = await this.supabase
+  //     .from('parking')
+  //     .insert([data]);
+
+
+  //   return { data: insertedData, error };
+  // }
+
+
+  // Subir imágenes al storage de Supabase a la caperta 'imagen-parking'
+  async uploadFile(file: File, filePath: string): Promise<{ data: any; error: any }> {
+    const { error } = await this.supabase.storage.from('imagen-parking').upload(filePath, file);
+
+    if (error) {
+      console.error('Error al subir archivo:', error.message);
+      return { data: null, error };
+    }
+
+    const { data: publicUrlData } = this.supabase.storage.from('imagen-parking').getPublicUrl(filePath);
+    return { data: { publicURL: publicUrlData.publicUrl }, error: null };
+  }
+
+  // Subir imágenes al storage de Supabase a la caperta 'imagen-parking'
+  async uploadFileAvatar(file: File, filePath: string): Promise<{ data: any; error: any }> {
+    const { error } = await this.supabase.storage.from('avatares').upload(filePath, file);
+
+    if (error) {
+      console.error('Error al subir archivo:', error.message);
+      return { data: null, error };
+    }
+
+    const { data: publicUrlData } = this.supabase.storage.from('avatares').getPublicUrl(filePath);
+    return { data: { publicURL: publicUrlData.publicUrl }, error: null };
+  }
+
+  // modificar un documento
+
+  async updateDocument(table: string, data: any, id: string) {
+    const { data: response, error } = await this.supabase.from(table).update(data).match({ id });
+    return { response, error };
+  }
+
+  //obtener un documento
+
+  async getDocument(table: string, id: string) {
+    const { data, error } = await this.supabase.from(table).select().match({ id });
+    return { data, error };
+  }
+
+  //eliminar un documento
+
+  async deleteDocument(table: string, id: string) {
+    const { data, error } = await this.supabase.from(table).delete().match({ id });
+    return { data, error };
+  }
+
+  // Obtener todos los registros de la tabla 'parking'
+  async getParkings(): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('parking')
+      .select('*');
+
+    if (error) {
+      console.error('Error al obtener los estacionamientos:', error.message);
+      return [];
     }
 
     return data;
   }
+
+  // METODO PARA VER LOS ESTACIONAMIENTOS QUE TIENE UN USUARIO
+  async getParkingsByUser(userId: string): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('parking')
+      .select('*')
+      .eq('created_by', userId);
+
+    if (error) {
+      console.error('Error al obtener los estacionamientos:', error.message);
+      return [];
+    }
+
+    return data;
+  }
+
+
+
+
+  // Método para eliminar un estacionamiento
+  async deleteParking(parkingId: string): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('parking') // Nombre de la tabla que se va a modificar
+      .delete()
+      .eq('parking_id', parkingId); // Filtra por el campo parking_id
+
+    if (error) {
+      throw new Error(`Error eliminando el estacionamiento: ${error.message}`);
+    }
+    return data;
+  }
+
+  //Metodo para guardar vehiculos en la tabla vehiculo
+  async saveVehicle(data: { patente: string; marca: string; modelo: string; color: string; tipo_vehiculo: string; user_id: string }) {
+    const { data: vehiculoData, error } = await this.supabase
+      .from('vehiculo')
+      .insert([data]);
+    return { data: vehiculoData, error };
+  }
+
+  //metodo para obtener ususario desde la vista
+  async getUserNameById(userId: string): Promise<string | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('datos_generales_usuarios')
+        .select('Nombre')
+        .eq('UsuarioID', userId)
+        .single();
+  
+      if (error) {
+        console.error('Error al obtener el nombre del usuario:', error.message);
+        return null;
+      }
+  
+      return data?.Nombre || null;
+    } catch (err) {
+      console.error('Error inesperado al obtener el nombre del usuario:', err);
+      return null;
+    }
+  }
+
+  //capturar el rol de ususario desde la vista
+  async getUserRoleById(userId: string): Promise<string | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('datos_generales_usuarios')
+        .select('nombre_role')
+        .eq('UsuarioID', userId)
+        .single();
+        console.log(data)
+  
+      if (error) {
+        console.error('Error al obtener el rol del usuario:', error.message);
+        return null;
+      }
+  
+      return data?.nombre_role || null;
+      
+    } catch (err) {
+      console.error('Error inesperado al obtener el rol del usuario:', err);
+      return null;
+    }
+  }
+
+  //metodo para obtener vehiculo por usuario
+  async getVehiculoByUserId(userId: string): Promise<any> {
+    console.log('Obteniendo datos del vehículo para userId:', userId);
+    const { data, error } = await this.supabase
+      .from('vehiculo')
+      .select('*')
+      .eq('user_id', userId); // Filtrar por user_id
+  
+    if (error) {
+      console.error('Error al obtener los datos del vehículo:', error.message);
+      return null;
+    }
+  
+    console.log('Datos del vehículo obtenidos:', data);
+    return data;
+  }
+
   
 }
+
+
+
+
+

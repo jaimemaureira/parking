@@ -1,3 +1,11 @@
 {
-  "typescript.preferences.autoImportFileExcludePatterns": ["@ionic/angular/common", "@ionic/angular/standalone"]
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@ionic/angular/common",
+    "@ionic/angular/standalone"
+  ],
+  "sonarlint.connectedMode.project": {
+    "connectionId": "jaimemaureira",
+    "projectKey": "jaimemaureira_parking"
+  },
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

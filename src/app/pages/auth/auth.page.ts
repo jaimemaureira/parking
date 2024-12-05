@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { SupabaseService } from 'src/app/services/supabase.service';
+
 
 @Component({
   selector: 'app-auth',
@@ -8,14 +12,85 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AuthPage implements OnInit {
 
+  supaSvc = inject(SupabaseService);
+  route = inject(Router);
+  loadingCtrl = inject(LoadingController);
+
   form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl<any>('', [Validators.required, Validators.email]),
+    password: new FormControl<any>('', [Validators.required, Validators.minLength(6)]),
   });
 
   constructor() { }
+ 
 
-  ngOnInit() {
+  //metodo para iniciar sesion
+  async submit() {
+    // Mostrar datos del formulario por consola
+    console.log(this.form.value);
+
+    // Obtener email y password
+    const { email, password } = this.form.value;
+
+
+    // Iniciar sesión
+    try {
+
+      const { data, error } = await this.supaSvc.signIn(email, password);
+      if (error) {
+        // Mostrar mensaje de error
+        console.error('Error al iniciar sesión:', error.message);
+        alert(`Error: ${error.message}`);
+        return;
+      }
+
+      // Mostrar mensaje de inicio de sesión exitoso
+      console.log('Inicio de sesión exitoso:', data);
+      alert('Inicio de sesión exitoso');
+
+      // Obtener el ID del usuario autenticado
+      const userId = data.user.id;
+      console.log('ID del usuario:', userId); 
+      debugger;
+
+      if (!userId) {
+        console.error('Error: No se pudo obtener el ID del usuario.');
+        alert('Error: No se pudo obtener el ID del usuario.');
+        return;
+      }
+      
+
+      // Obtener el rol del usuario
+      const role = await this.supaSvc.getUserRoleById(userId);
+      console.log('Rol del usuario auth.page.ts :', role);
+      debugger;
+      if (!role) {
+        console.error('Error: No se pudo obtener el rol del usuario.');
+        alert('Error: No se pudo obtener el rol del usuario.');
+        return;
+      }      
+
+      // Redirigir a la página principal segun rol
+      await this.supaSvc.redirectByRole(role);
+
+      
+
+
+      // Limpiar formulario
+      this.form.reset();
+
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error:', error.message);
+        alert(`Error: ${error.message}`);
+      } else {
+        console.error('Error desconocido:', error);
+        alert('Error desconocido');
+      }
+      // Cerrar loading
+      // } finally {
+      //   await loading.dismiss();
+      // }
+    }
   }
-
 }

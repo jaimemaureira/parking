@@ -5,7 +5,7 @@
 
   <div class="d-flex-center">
 
-    <form [formGroup]="form" class="auth-form">
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()" >
 
       <app-logo></app-logo>
 
@@ -13,15 +13,15 @@
       <app-custom-input
         autocomplete="name"
         icon="person-outline"
-        [control]="form.controls.name"
+        [control]="form.controls.nombre"
         type="text"
         label="Nombre"></app-custom-input>
 
       <div class="validators"
-        *ngIf="form.controls.name.errors && form.controls.name.touched">
-        <div *ngIf="form.controls.name.errors?.['required']">El correo es
+        *ngIf="form.controls.nombre.errors && form.controls.nombre.touched">
+        <div *ngIf="form.controls.nombre.errors?.['required']">El correo es
           obligatorio</div>
-        <div *ngIf="form.controls.name.errors?.['minlenght']">El nombre debe
+        <div *ngIf="form.controls.nombre.errors?.['minlenght']">El nombre debe
           tener minimo 4 caracteres</div>
       </div>
 
@@ -60,7 +60,7 @@
       <!-- Telefono -->       
       
       <app-custom-input        
-        autocomplete="telefono"
+        autocomplete="tele"
         icon = "phone-portrait-outline"              
         [control]="form.controls.telefono"
         type="text"

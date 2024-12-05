@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { NoAuthGuard } from './guards/no-auth.guard';
 
 const routes: Routes = [
   {
@@ -7,10 +9,44 @@ const routes: Routes = [
     redirectTo: 'auth',
     pathMatch: 'full'
   },
+
+  { path: 'reset-password', 
+      loadChildren: () => import('./pages/auth/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule), canActivate: [NoAuthGuard]
+  },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
+    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule), canActivate: [NoAuthGuard]
   },
+  {
+    path: 'main',
+    loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule),canActivate: [AuthGuard]
+  },
+  {
+    path: 'sign-up-prestador',
+    loadChildren: () => import('./pages/auth/sign-up-prestador/sign-up-prestador.module').then( m => m.SignUpPrestadorPageModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'parking-view',
+    loadChildren: () => import('./pages/main/parking-view/parking-view.module').then(m => m.ParkingViewPageModule),canActivate: [AuthGuard]
+  },
+
+  {
+    path: 'vehiculo',
+    loadChildren: () => import('./pages/main/vehiculo/vehiculo.module').then(m => m.VehiculoPageModule),canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/main//profile/profile.module').then( m => m.ProfilePageModule),canActivate: [AuthGuard]
+  },
+
+  
+
+
+  
+  
+  
+
+
 ];
 
 @NgModule({

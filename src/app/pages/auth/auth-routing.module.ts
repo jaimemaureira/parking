@@ -7,14 +7,29 @@ const routes: Routes = [
   {
     path: '',
     component: AuthPage
-  },  {
+  },
+  {
     path: 'sign-up',
     loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
   {
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'sign-up-prestador',
+    loadChildren: () => import('./sign-up-prestador/sign-up-prestador.module').then( m => m.SignUpPrestadorPageModule)
+  },
+  {
+    path: 'sign-up-usuario',
+    loadChildren: () => import('./sign-up-usuario/sign-up-usuario.module').then( m => m.SignUpUsuarioPageModule)
   }
+
+
 
 ];
 
